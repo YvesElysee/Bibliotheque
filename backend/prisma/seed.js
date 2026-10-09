@@ -165,6 +165,10 @@ async function main() {
   console.log('\n🎉 Base de données initialisée avec succès.');
 }
 
-main()
-  .catch((e) => { console.error('❌ Erreur seed:', e); process.exit(1); })
-  .finally(() => prisma.$disconnect());
+if (require.main === module) {
+  main()
+    .catch((e) => { console.error('❌ Erreur seed:', e); process.exit(1); })
+    .finally(() => prisma.$disconnect());
+}
+
+module.exports = { main };
