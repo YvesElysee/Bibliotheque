@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administration — Bibliothèque de la Congrégation</title>
+  <link rel="stylesheet" href="../../css/output.css" />
+  <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg" />
+</head>
+<body class="min-h-screen flex">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="px-4 mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center glow-primary shrink-0">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </div>
+        <div>
+          <p class="font-serif text-sm font-semibold text-white">Administration</p>
+          <p class="text-xs text-slate-600">Bibliothèque</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Utilisateur connecté -->
+    <div class="px-4 mb-6">
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+        <div class="w-8 h-8 rounded-lg bg-primary-600/30 border border-primary-500/30 flex items-center justify-center text-primary-300 text-xs font-bold" id="sidebar-avatar">—</div>
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-white truncate" id="sidebar-name">—</p>
+          <p class="text-xs text-slate-500" id="sidebar-role">—</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 px-2 space-y-1">
+      <!-- Dashboard -->
+      <button class="sidebar-item active w-full text-left" data-section="dashboard" aria-current="page">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        Tableau de bord
+      </button>
+
+      <div class="px-3 pt-4 pb-1">
+        <p class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Catalogue</p>
+      </div>
+
+      <button class="sidebar-item w-full text-left" data-section="books">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+        Livres
+      </button>
+
+      <button class="sidebar-item w-full text-left" data-section="categories">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+        </svg>
+        Catégories
+      </button>
+
+      <div class="px-3 pt-4 pb-1">
+        <p class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Circulation</p>
+      </div>
+
+      <button class="sidebar-item w-full text-left" data-section="loans">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+        </svg>
+        Emprunts
+        <span id="overdue-badge" class="hidden ml-auto badge-overdue badge text-xs px-1.5 py-0.5">!</span>
+      </button>
+
+      <button class="sidebar-item w-full text-left" data-section="requests">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Livres signalés
+        <span id="requests-badge" class="hidden ml-auto badge bg-amber-500/20 text-amber-400 border-amber-500/30 text-xs px-1.5 py-0.5"></span>
+      </button>
+
+      <div class="px-3 pt-4 pb-1" id="admin-section-header">
+        <p class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Administration</p>
+      </div>
+
+      <button class="sidebar-item w-full text-left" data-section="users" id="btn-users">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        Utilisateurs
+      </button>
+
+      <button class="sidebar-item w-full text-left" data-section="audit" id="btn-audit">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        Journal d'activité
+      </button>
+    </nav>
+
+    <div class="px-4 mt-auto space-y-2">
+      <a href="../index.html" class="sidebar-item w-full text-left text-slate-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+        </svg>
+        Voir le catalogue
+      </a>
+      <button id="admin-logout-btn" class="sidebar-item w-full text-left text-red-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+        Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- Contenu principal -->
+  <main class="flex-1 ml-64 min-h-screen">
+    <!-- Topbar -->
+    <header class="sticky top-0 z-30 flex items-center justify-between px-8 py-4 border-b border-slate-800/60"
+            style="background: rgba(2,6,23,0.9); backdrop-filter: blur(16px);">
+      <div>
+        <h1 class="section-title text-xl" id="page-title">Tableau de bord</h1>
+        <p class="section-subtitle text-xs" id="page-subtitle">Vue d'ensemble de la bibliothèque</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Bouton d'action principal -->
+        <button id="main-action-btn" class="btn-primary btn-sm hidden">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span id="main-action-text">Ajouter</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Zones de contenu -->
+    <div class="p-8">
+      <!-- Dashboard -->
+      <section id="section-dashboard" class="animate-fade-in">
+        <!-- Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="stat-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="stat-card__label">Total ouvrages</span>
+              <svg class="w-5 h-5 stat-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13..."/>
+              </svg>
+            </div>
+            <span class="stat-card__value" id="stat-total-books">—</span>
+          </div>
+          <div class="stat-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="stat-card__label">Emprunts actifs</span>
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+            </div>
+            <span class="stat-card__value text-emerald-400" id="stat-active-loans">—</span>
+          </div>
+          <div class="stat-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="stat-card__label">En retard</span>
+              <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span class="stat-card__value text-red-400" id="stat-overdue">—</span>
+          </div>
+          <div class="stat-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="stat-card__label">Membres actifs</span>
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </div>
+            <span class="stat-card__value text-blue-400" id="stat-users">—</span>
+          </div>
+        </div>
+
+        <!-- Livres les plus empruntés + Emprunts récents -->
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div class="card">
+            <h2 class="font-serif text-lg font-semibold text-white mb-4">Livres les plus empruntés</h2>
+            <div id="most-borrowed" class="space-y-3">
+              <div class="skeleton h-12 w-full rounded-xl"></div>
+              <div class="skeleton h-12 w-full rounded-xl"></div>
+              <div class="skeleton h-12 w-full rounded-xl"></div>
+            </div>
+          </div>
+          <div class="card">
+            <h2 class="font-serif text-lg font-semibold text-white mb-4">Activité récente</h2>
+            <div id="recent-loans" class="space-y-3">
+              <div class="skeleton h-12 w-full rounded-xl"></div>
+              <div class="skeleton h-12 w-full rounded-xl"></div>
+              <div class="skeleton h-12 w-full rounded-xl"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Livres -->
+      <section id="section-books" class="hidden animate-fade-in">
+        <div class="mb-6 flex flex-wrap items-center gap-3">
+          <input type="search" id="books-search" class="form-input text-sm py-2 rounded-xl max-w-xs" placeholder="Rechercher un livre…" />
+          <select id="books-filter-available" class="form-select text-sm py-2 rounded-xl w-auto">
+            <option value="">Tous les livres</option>
+            <option value="true">Disponibles</option>
+            <option value="false">Empruntés</option>
+          </select>
+          <button id="export-inventory-btn" class="btn-secondary btn-sm ml-auto">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Export PDF
+          </button>
+        </div>
+        <div class="card p-0 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm" id="books-table">
+              <thead>
+                <tr class="border-b border-slate-800/60">
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Titre / Auteur</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider hidden md:table-cell">Catégories</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Exemplaires</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Statut</th>
+                  <th class="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="books-tbody" class="divide-y divide-slate-800/40">
+                <tr><td colspan="5" class="px-4 py-8 text-center text-slate-500">Chargement…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="books-pagination" class="pagination"></div>
+      </section>
+
+      <!-- Section Emprunts -->
+      <section id="section-loans" class="hidden animate-fade-in">
+        <div class="mb-6 flex flex-wrap items-center gap-3">
+          <select id="loans-filter-status" class="form-select text-sm py-2 rounded-xl w-auto">
+            <option value="">Tous</option>
+            <option value="ACTIVE">Actifs</option>
+            <option value="OVERDUE">En retard</option>
+            <option value="RETURNED">Retournés</option>
+            <option value="RENEWED">Renouvelés</option>
+          </select>
+          <input type="text" id="loans-search-user" class="form-input text-sm py-2 rounded-xl max-w-xs" placeholder="ID ou nom d'utilisateur…" />
+          <button id="new-loan-btn" class="btn-success btn-sm ml-auto">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Nouvel emprunt
+          </button>
+        </div>
+        <div class="card p-0 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-800/60">
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Membre</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Livre</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider hidden md:table-cell">Emprunté le</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Retour prévu</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Statut</th>
+                  <th class="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="loans-tbody" class="divide-y divide-slate-800/40">
+                <tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">Chargement…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="loans-pagination" class="pagination"></div>
+      </section>
+
+      <!-- Section Livres signalés -->
+      <section id="section-requests" class="hidden animate-fade-in">
+        <div class="card p-0 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-800/60">
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Demandeur</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Titre recherché</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase hidden md:table-cell">Auteur</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Statut</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase hidden lg:table-cell">Date</th>
+                  <th class="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="requests-tbody" class="divide-y divide-slate-800/40">
+                <tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">Chargement…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Utilisateurs -->
+      <section id="section-users" class="hidden animate-fade-in">
+        <div class="mb-6 flex flex-wrap items-center gap-3">
+          <input type="search" id="users-search" class="form-input text-sm py-2 rounded-xl max-w-xs" placeholder="Rechercher un membre…" />
+          <select id="users-filter-role" class="form-select text-sm py-2 rounded-xl w-auto">
+            <option value="">Tous les rôles</option>
+            <option value="MEMBER">Membres</option>
+            <option value="LIBRARIAN">Bibliothécaires</option>
+            <option value="ADMIN">Administrateurs</option>
+          </select>
+        </div>
+        <div class="card p-0 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-800/60">
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Membre</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase hidden md:table-cell">Email</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Rôle</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase hidden lg:table-cell">Emprunts</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Statut</th>
+                  <th class="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody" class="divide-y divide-slate-800/40">
+                <tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">Chargement…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="users-pagination" class="pagination"></div>
+      </section>
+
+      <!-- Section Catégories -->
+      <section id="section-categories" class="hidden animate-fade-in">
+        <div id="categories-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="skeleton h-24 rounded-2xl"></div>
+          <div class="skeleton h-24 rounded-2xl"></div>
+          <div class="skeleton h-24 rounded-2xl"></div>
+        </div>
+      </section>
+
+      <!-- Section Audit -->
+      <section id="section-audit" class="hidden animate-fade-in">
+        <div class="card p-0 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-800/60">
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Date</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Admin</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Action</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase">Entité</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase hidden lg:table-cell">IP</th>
+                </tr>
+              </thead>
+              <tbody id="audit-tbody" class="divide-y divide-slate-800/40">
+                <tr><td colspan="5" class="px-4 py-8 text-center text-slate-500">Chargement…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="audit-pagination" class="pagination"></div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="../../js/pages/admin/dashboard.js"></script>
+</body>
+</html>

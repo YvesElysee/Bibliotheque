@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Profil Bibliothèque de la Congrégation</title>
+  <link rel="stylesheet" href="../css/output.css" />
+  <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+</head>
+<body class="min-h-screen pb-16">
+
+  <!-- Navbar -->
+  <nav class="navbar" id="main-navbar">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center glow-primary shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      </div>
+      <div>
+        <p class="font-serif font-semibold text-white text-sm leading-tight">Bibliothèque</p>
+        <p class="text-xs text-slate-500">de la Congrégation</p>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="btn btn-secondary btn-sm flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Catalogue
+      </a>
+      <div class="relative" id="nav-user">
+        <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 hover:border-primary-500/40 transition">
+          <div class="w-7 h-7 rounded-lg bg-primary-600/30 border border-primary-500/30 flex items-center justify-center text-primary-300 text-xs font-bold" id="user-avatar">—</div>
+          <span class="text-sm font-medium text-slate-200 hidden sm:block max-w-[120px] truncate" id="user-name">Mon compte</span>
+        </button>
+        <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl bg-slate-900 border border-slate-700/60 shadow-xl z-50 overflow-hidden">
+          <a href="my-loans.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Mes emprunts
+          </a>
+          <a href="requests.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Signaler un livre
+          </a>
+          <div id="nav-admin-link" class="hidden">
+            <div class="border-t border-slate-800 my-1"></div>
+            <a href="admin/index.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-300 hover:bg-slate-800 transition">
+              Administration
+            </a>
+          </div>
+          <div class="border-t border-slate-800 my-1"></div>
+          <button id="logout-btn" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-slate-800 transition">
+            Déconnexion
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenu Principal -->
+  <main class="max-w-2xl mx-auto px-4 sm:px-6 pt-24">
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">Mon Profil</h1>
+      <p class="text-sm text-slate-400">Gérez vos informations personnelles et votre sécurité.</p>
+    </div>
+
+    <div class="card space-y-6">
+      <form id="profile-form" class="space-y-4">
+        <h2 class="text-base font-serif font-semibold text-white">Informations du compte</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Prénom *</label>
+            <input type="text" name="firstName" id="profile-firstname" required class="form-input text-sm py-2 rounded-xl w-full" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Nom *</label>
+            <input type="text" name="lastName" id="profile-lastname" required class="form-input text-sm py-2 rounded-xl w-full" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-medium text-slate-300 mb-1">Adresse email</label>
+            <input type="email" id="profile-email" disabled class="form-input text-sm py-2 rounded-xl w-full opacity-60 cursor-not-allowed" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Langue préférée</label>
+            <select name="preferredLanguage" id="profile-language" class="form-select text-sm py-2 rounded-xl w-full">
+              <option value="FR">Français (FR)</option>
+              <option value="EN">English (EN)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Rôle</label>
+            <input type="text" id="profile-role" disabled class="form-input text-sm py-2 rounded-xl w-full opacity-60 cursor-not-allowed font-medium" />
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800">
+          <h2 class="text-base font-serif font-semibold text-white mb-3">Changer de mot de passe (optionnel)</h2>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Mot de passe actuel</label>
+              <input type="password" name="currentPassword" class="form-input text-sm py-2 rounded-xl w-full" placeholder="••••••••" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Nouveau mot de passe</label>
+              <input type="password" name="newPassword" class="form-input text-sm py-2 rounded-xl w-full" placeholder="••••••••" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-4 border-t border-slate-800">
+          <button type="submit" id="save-profile-btn" class="btn btn-primary btn-sm">
+            Enregistrer les modifications
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script type="module" src="../js/pages/profile.js"></script>
+</body>
+</html>

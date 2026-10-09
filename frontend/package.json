@@ -1,0 +1,15 @@
+{
+  "name": "bibliotheque-congregation-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./css/main.css -o ./css/output.css --minify",
+    "watch:css": "tailwindcss -i ./css/main.css -o ./css/output.css --watch",
+    "dev": "concurrently \"npm run watch:css\" \"live-server --port=5500 --host=localhost\""
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.4",
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2"
+  }
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bibliothèque de la Congrégation — Catalogue</title>
+  <meta name="description" content="Catalogue de la bibliothèque de la congrégation. Recherchez, empruntez et gérez vos ouvrages." />
+  <link rel="stylesheet" href="../css/output.css" />
+  <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+</head>
+<body class="min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="navbar" id="main-navbar">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center glow-primary shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      </div>
+      <div class="hidden sm:block">
+        <p class="font-serif font-semibold text-white text-sm leading-tight">Bibliothèque</p>
+        <p class="text-xs text-slate-500">de la Congrégation</p>
+      </div>
+    </a>
+
+    <div class="flex-1 max-w-sm mx-6 hidden md:block">
+      <div class="search-bar">
+        <svg class="search-bar__icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
+        </svg>
+        <input type="search" id="navbar-search" class="search-bar__input w-full" placeholder="Rechercher un ouvrage..." autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Langue -->
+      <button id="lang-toggle" class="btn-ghost btn-sm hidden sm:flex items-center gap-1.5 text-slate-400" aria-label="Changer de langue">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+        </svg>
+        <span id="lang-label">FR</span>
+      </button>
+
+      <!-- Non connecté -->
+      <div id="nav-guest" class="flex items-center gap-2">
+        <a href="login.html" class="btn-secondary btn-sm">Connexion</a>
+        <a href="register.html" class="btn-primary btn-sm hidden sm:inline-flex">Inscription</a>
+      </div>
+
+      <!-- Connecté -->
+      <div id="nav-user" class="hidden items-center gap-2">
+        <a href="my-loans.html" class="btn-ghost btn-sm hidden sm:flex" id="nav-my-loans">Mes emprunts</a>
+        <div class="relative" id="nav-user-menu">
+          <button id="user-menu-btn" class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 transition-colors">
+            <div class="w-7 h-7 rounded-lg bg-primary-600/30 border border-primary-500/30 flex items-center justify-center text-primary-300 text-xs font-bold" id="user-avatar">?</div>
+            <span id="user-name" class="hidden sm:block max-w-[120px] truncate"></span>
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl bg-slate-900 border border-slate-700/60 shadow-xl z-50 overflow-hidden">
+            <a href="profile.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              Mon profil
+            </a>
+            <a href="my-loans.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              Mes emprunts
+            </a>
+            <a href="requests.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Signaler un livre
+            </a>
+            <div id="nav-admin-link" class="hidden">
+              <div class="border-t border-slate-700/60 my-1"></div>
+              <a href="admin/index.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-300 hover:bg-slate-800 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Administration
+              </a>
+            </div>
+            <div class="border-t border-slate-700/60 my-1"></div>
+            <button id="logout-btn" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-slate-800 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+              Déconnexion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-28 pb-16 px-4 text-center relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full" 
+           style="background: radial-gradient(ellipse, rgba(79,70,229,0.12) 0%, transparent 70%);"></div>
+    </div>
+    <div class="relative max-w-3xl mx-auto">
+      <span class="inline-flex items-center gap-2 text-xs font-medium text-primary-400 bg-primary-500/10 border border-primary-500/20 px-3 py-1.5 rounded-full mb-6">
+        <span class="status-dot-green"></span>
+        Bibliothèque en ligne
+      </span>
+      <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+        <span class="text-gradient">Bibliothèque</span><br>de la Congrégation
+      </h1>
+      <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
+        Découvrez notre collection d'ouvrages théologiques, philosophiques et spirituels.
+      </p>
+
+      <!-- Barre de recherche principale -->
+      <div class="max-w-2xl mx-auto">
+        <div class="search-bar">
+          <svg class="search-bar__icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
+          </svg>
+          <input type="search" id="hero-search" class="search-bar__input w-full py-4 text-base"
+            placeholder="Rechercher par titre, auteur, maison d'édition..." autocomplete="off" />
+        </div>
+      </div>
+
+      <!-- Stats rapides -->
+      <div id="quick-stats" class="flex items-center justify-center gap-8 mt-8 text-sm text-slate-500">
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-white" id="stat-books">—</span> ouvrages
+        </div>
+        <div class="w-px h-4 bg-slate-700"></div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-emerald-400" id="stat-available">—</span> disponibles
+        </div>
+        <div class="w-px h-4 bg-slate-700"></div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-primary-400" id="stat-borrowed">—</span> empruntés
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filtres + Catalogue -->
+  <main class="max-w-7xl mx-auto px-4 pb-20">
+
+    <!-- Filtres catégories -->
+    <section class="mb-8" aria-label="Filtres par catégorie">
+      <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide" id="categories-filter">
+        <button class="category-btn active shrink-0 btn btn-primary btn-sm" data-category="">
+          Tous
+        </button>
+        <!-- Injecté dynamiquement -->
+      </div>
+    </section>
+
+    <!-- Filtres avancés -->
+    <div class="flex flex-wrap items-center gap-3 mb-8">
+      <select id="filter-available" class="form-select text-sm py-2 rounded-xl w-auto">
+        <option value="">Tous les livres</option>
+        <option value="true">Disponibles uniquement</option>
+        <option value="false">Empruntés uniquement</option>
+      </select>
+      <select id="filter-sort" class="form-select text-sm py-2 rounded-xl w-auto">
+        <option value="createdAt">Récemment ajoutés</option>
+        <option value="title">Titre (A-Z)</option>
+        <option value="author">Auteur (A-Z)</option>
+        <option value="year">Année</option>
+      </select>
+      <select id="filter-order" class="form-select text-sm py-2 rounded-xl w-auto">
+        <option value="desc">Décroissant</option>
+        <option value="asc">Croissant</option>
+      </select>
+      <span class="ml-auto text-sm text-slate-500" id="results-count"></span>
+    </div>
+
+    <!-- Grille des livres -->
+    <div id="books-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 min-h-[300px]">
+      <!-- Chargement initial -->
+    </div>
+
+    <!-- État vide -->
+    <div id="books-empty" class="hidden text-center py-20">
+      <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <h3 class="font-serif text-xl text-white mb-2">Aucun ouvrage trouvé</h3>
+      <p class="text-slate-500 text-sm mb-6">Essayez d'autres termes ou <a href="requests.html" class="text-primary-400 underline">signalez ce livre</a> comme recherché.</p>
+      <button id="clear-search" class="btn-secondary btn-sm">Réinitialiser la recherche</button>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="hidden pagination"></div>
+  </main>
+
+  <!-- Modal détail livre -->
+  <div id="book-detail-modal" class="hidden"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="../js/pages/catalog.js"></script>
+</body>
+</html>

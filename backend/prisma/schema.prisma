@@ -1,0 +1,249 @@
+// Generator and Datasource
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  MEMBER
+  LIBRARIAN
+  ADMIN
+}
+
+enum LoanStatus {
+  ACTIVE
+  RETURNED
+  OVERDUE
+  RENEWED
+}
+
+enum ReservationStatus {
+  PENDING
+  NOTIFIED
+  CONFIRMED
+  CANCELLED
+  EXPIRED
+}
+
+enum RequestStatus {
+  OPEN
+  IN_PROGRESS
+  ACQUIRED
+  CLOSED
+}
+
+enum Language {
+  FR
+  EN
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  password          String
+  firstName         String
+  lastName          String
+  role              Role      @default(MEMBER)
+  isEmailVerified   Boolean   @default(false)
+  emailVerifyToken  String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+  preferredLanguage Language  @default(FR)
+  firstLoginIp      String?
+  lastLoginAt       DateTime?
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  loans             Loan[]
+  reservations      Reservation[]
+  reviews           Review[]
+  bookRequests      BookRequest[]
+  notifications     Notification[]
+  refreshTokens     RefreshToken[]
+  auditLogs         AuditLog[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}
+
+model Category {
+  id          String  @id @default(uuid())
+  nameEn      String  @unique
+  nameFr      String  @unique
+  slug        String  @unique
+  description String?
+  color       String  @default("#6B7280")
+  icon        String  @default("book")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  books       BookCategory[]
+
+  @@map("categories")
+}
+
+model Book {
+  id              String    @id @default(uuid())
+  title           String
+  author          String
+  publisher       String?   // éditeur (personne)
+  publishingHouse String?   // maison d'édition
+  isbn            String?   @unique
+  year            Int?
+  edition         String?
+  language        String    @default("fr")
+  pageCount       Int?
+  summary         String?   @db.Text
+  coverUrl        String?
+  totalCopies     Int       @default(1)
+  availableCopies Int       @default(1)
+  location        String?   // Cote ou emplacement physique
+  tags            String[]  @default([])
+  isActive        Boolean   @default(true)
+  addedBy         String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  categories      BookCategory[]
+  loans           Loan[]
+  reservations    Reservation[]
+  reviews         Review[]
+
+  @@index([title])
+  @@index([author])
+  @@index([publishingHouse])
+  @@map("books")
+}
+
+model BookCategory {
+  bookId     String
+  categoryId String
+  book       Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([bookId, categoryId])
+  @@map("book_categories")
+}
+
+model Loan {
+  id                 String     @id @default(uuid())
+  userId             String
+  bookId             String
+  user               User       @relation(fields: [userId], references: [id])
+  book               Book       @relation(fields: [bookId], references: [id])
+  borrowedAt         DateTime   @default(now())
+  dueDate            DateTime
+  returnedAt         DateTime?
+  renewedAt          DateTime?
+  renewalCount       Int        @default(0)
+  maxRenewals        Int        @default(2)
+  status             LoanStatus @default(ACTIVE)
+  notes              String?
+  registeredBy       String?    // ID du bibliothécaire qui a enregistré l'emprunt
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([bookId])
+  @@index([status])
+  @@map("loans")
+}
+
+model Reservation {
+  id           String            @id @default(uuid())
+  userId       String
+  bookId       String
+  user         User              @relation(fields: [userId], references: [id])
+  book         Book              @relation(fields: [bookId], references: [id])
+  status       ReservationStatus @default(PENDING)
+  position     Int               @default(1)  // Position dans la file d'attente
+  notifiedAt   DateTime?
+  expiresAt    DateTime?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([bookId])
+  @@map("reservations")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id])
+  rating    Int      // 1 à 5
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId])
+  @@map("reviews")
+}
+
+model BookRequest {
+  id          String        @id @default(uuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  title       String
+  author      String?
+  publisher   String?
+  description String?       @db.Text
+  status      RequestStatus @default(OPEN)
+  adminNotes  String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("book_requests")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // LOAN_REMINDER, BOOK_AVAILABLE, REQUEST_UPDATE, etc.
+  subject   String
+  body      String   @db.Text
+  sentAt    DateTime @default(now())
+  isRead    Boolean  @default(false)
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  action     String   // CREATE_BOOK, DELETE_BOOK, UPDATE_LOAN, etc.
+  entityType String   // book, loan, user, etc.
+  entityId   String?
+  details    Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes Emprunts — Bibliothèque de la Congrégation</title>
+  <meta name="description" content="Suivi de vos emprunts en cours, dates de restitution et historique des lectures." />
+  <link rel="stylesheet" href="../css/output.css" />
+  <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+</head>
+<body class="min-h-screen pb-16">
+
+  <!-- Navbar -->
+  <nav class="navbar" id="main-navbar">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center glow-primary shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      </div>
+      <div>
+        <p class="font-serif font-semibold text-white text-sm leading-tight">Bibliothèque</p>
+        <p class="text-xs text-slate-500">de la Congrégation</p>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="btn btn-secondary btn-sm flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Retour au catalogue
+      </a>
+      <div class="relative" id="nav-user">
+        <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 hover:border-primary-500/40 transition">
+          <div class="w-7 h-7 rounded-lg bg-primary-600/30 border border-primary-500/30 flex items-center justify-center text-primary-300 text-xs font-bold" id="user-avatar">—</div>
+          <span class="text-sm font-medium text-slate-200 hidden sm:block max-w-[120px] truncate" id="user-name">Mon compte</span>
+        </button>
+        <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl bg-slate-900 border border-slate-700/60 shadow-xl z-50 overflow-hidden">
+          <a href="requests.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Signaler un livre
+          </a>
+          <a href="profile.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Mon profil
+          </a>
+          <div id="nav-admin-link" class="hidden">
+            <div class="border-t border-slate-800 my-1"></div>
+            <a href="admin/index.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-300 hover:bg-slate-800 transition">
+              Administration
+            </a>
+          </div>
+          <div class="border-t border-slate-800 my-1"></div>
+          <button id="logout-btn" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-slate-800 transition">
+            Déconnexion
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenu Principal -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-24">
+    <!-- En-tête -->
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">Mes Emprunts & Lectures</h1>
+      <p class="text-sm text-slate-400">
+        Consultez la date d'échéance de vos ouvrages en cours et l'historique complet de vos emprunts passés.
+      </p>
+    </div>
+
+    <!-- Emprunts en cours -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-serif font-semibold text-white flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+          Emprunts en cours (<span id="active-count">0</span>)
+        </h2>
+      </div>
+      <div id="active-loans-list" class="space-y-4">
+        <div class="card py-8 text-center text-slate-500">Chargement de vos prêts…</div>
+      </div>
+    </div>
+
+    <!-- Historique des emprunts retournés -->
+    <div>
+      <h2 class="text-lg font-serif font-semibold text-white mb-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
+        Historique des ouvrages retournés
+      </h2>
+      <div id="history-loans-list" class="space-y-3">
+        <div class="card py-6 text-center text-slate-500">Chargement de l'historique…</div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../js/pages/my-loans.js"></script>
+</body>
+</html>

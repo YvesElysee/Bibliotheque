@@ -1,0 +1,38 @@
+# Blueprint Render — déploiement en un clic (plan gratuit)
+# https://render.com/docs/blueprint-spec
+# Le backend Express sert AUSSI le frontend statique : un seul service suffit.
+services:
+  - type: web
+    name: bibliotheque-congregation
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: backend
+    healthCheckPath: /api/health
+    buildCommand: npm install && npx prisma generate && npx prisma db push
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LIBRARY_NAME
+        value: Bibliothèque de la Congrégation
+      - key: DEFAULT_LOAN_DAYS
+        value: "21"
+      - key: MAX_ACTIVE_LOANS
+        value: "3"
+      - key: REQUIRE_EMAIL_VERIFICATION
+        value: "false"
+      - key: JWT_ACCESS_EXPIRY
+        value: 15m
+      - key: JWT_REFRESH_EXPIRY_DAYS
+        value: "7"
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false

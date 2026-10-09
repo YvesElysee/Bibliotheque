@@ -1,0 +1,14 @@
+# Dépendances
+node_modules/
+
+# Environnement local (contient JWT_SECRET, SMTP, mot de passe base...) — NE JAMAIS commiter
+backend/.env
+.env
+
+# Fichiers téléversés (couvertures...) — non nécessaires au déploiement
+backend/uploads/
+
+# Logs et divers OS
+*.log
+.DS_Store
+Thumbs.db

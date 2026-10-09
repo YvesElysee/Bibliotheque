@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signaler un livre indisponible — Bibliothèque de la Congrégation</title>
+  <meta name="description" content="Espace pour signaler et suggérer des livres indisponibles ou recherchés au sein de la congrégation." />
+  <link rel="stylesheet" href="../css/output.css" />
+  <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+</head>
+<body class="min-h-screen pb-16">
+
+  <!-- Navbar -->
+  <nav class="navbar" id="main-navbar">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center glow-primary shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      </div>
+      <div>
+        <p class="font-serif font-semibold text-white text-sm leading-tight">Bibliothèque</p>
+        <p class="text-xs text-slate-500">de la Congrégation</p>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="btn btn-secondary btn-sm flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Retour au catalogue
+      </a>
+      <div class="relative" id="nav-user">
+        <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-700/60 hover:border-primary-500/40 transition">
+          <div class="w-7 h-7 rounded-lg bg-primary-600/30 border border-primary-500/30 flex items-center justify-center text-primary-300 text-xs font-bold" id="user-avatar">—</div>
+          <span class="text-sm font-medium text-slate-200 hidden sm:block max-w-[120px] truncate" id="user-name">Mon compte</span>
+        </button>
+        <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl bg-slate-900 border border-slate-700/60 shadow-xl z-50 overflow-hidden">
+          <a href="my-loans.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Mes emprunts
+          </a>
+          <a href="profile.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Mon profil
+          </a>
+          <div id="nav-admin-link" class="hidden">
+            <div class="border-t border-slate-800 my-1"></div>
+            <a href="admin/index.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-300 hover:bg-slate-800 transition">
+              Administration
+            </a>
+          </div>
+          <div class="border-t border-slate-800 my-1"></div>
+          <button id="logout-btn" class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-slate-800 transition">
+            Déconnexion
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenu Principal -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-24">
+    <!-- En-tête -->
+    <div class="mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-950/80 border border-primary-500/30 text-xs text-primary-300 mb-3">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Espace de signalement & suggestions
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">Signaler un document recherché ou indisponible</h1>
+      <p class="text-sm text-slate-400">
+        Vous préparez une homélie, une recherche biblique ou théologique et l'ouvrage est absent ou emprunté ?
+        Renseignez ce formulaire pour avertir le bibliothécaire et lancer une commande ou réservation prioritaire.
+      </p>
+    </div>
+
+    <!-- Formulaire de signalement -->
+    <div class="card mb-12">
+      <h2 class="text-lg font-serif font-semibold text-white mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        Nouveau signalement
+      </h2>
+
+      <form id="request-form" class="space-y-4">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-medium text-slate-300 mb-1">Titre de l'ouvrage ou du document recherché *</label>
+            <input type="text" name="title" id="req-title" required class="form-input text-sm py-2 rounded-xl w-full" placeholder="Ex: De Trinitate (Saint Augustin) ou Bréviaire Romain…" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Auteur / Père de l'Église (optionnel)</label>
+            <input type="text" name="author" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Ex: Saint Augustin" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Édition / Maison d'édition ou ISBN (si connu)</label>
+            <input type="text" name="notesSecondary" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Ex: Cerf (Sources Chrétiennes)" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-medium text-slate-300 mb-1">Précisions ou motif de la recherche (optionnel)</label>
+            <textarea name="notes" rows="3" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Ex: Livre introuvable en rayon, nécessaire pour une session d'études ou retraite…"></textarea>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-3 border-t border-slate-800">
+          <button type="submit" id="submit-request-btn" class="btn btn-primary btn-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            Envoyer le signalement
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Mes signalements précédents -->
+    <div>
+      <h2 class="text-xl font-serif font-bold text-white mb-4">Mes signalements enregistrés</h2>
+      <div id="my-requests-list" class="space-y-3">
+        <div class="card py-8 text-center text-slate-500">Chargement de vos demandes…</div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../js/pages/requests.js"></script>
+</body>
+</html>
