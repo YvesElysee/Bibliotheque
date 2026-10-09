@@ -320,7 +320,7 @@ async function openBookDetail(book) {
                    </button>`
               }
             </div>` : `
-            <a href="login.html" class="btn-primary btn-sm mb-4 inline-flex">
+            <a href="/pages/login.html" class="btn-primary btn-sm mb-4 inline-flex">
               Connexion pour emprunter
             </a>`
           }
@@ -337,7 +337,7 @@ async function openBookDetail(book) {
 
     // Actions emprunt / réservation
     document.getElementById('detail-borrow-btn')?.addEventListener('click', async () => {
-      if (!auth.isAuthenticated()) { window.location.href = 'login.html'; return; }
+      if (!auth.isAuthenticated()) { window.location.href = '/pages/login.html'; return; }
       if (!auth.isStaff()) {
         toast.info('Contactez le bibliothécaire pour enregistrer votre emprunt.'); return;
       }

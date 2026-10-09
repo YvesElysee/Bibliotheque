@@ -12,7 +12,7 @@
 
   <!-- Navbar -->
   <nav class="navbar" id="main-navbar">
-    <a href="index.html" class="flex items-center gap-3">
+    <a href="/pages/index.html" class="flex items-center gap-3">
       <div class="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center glow-primary shrink-0">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -45,13 +45,13 @@
 
       <!-- Non connecté -->
       <div id="nav-guest" class="flex items-center gap-2">
-        <a href="login.html" class="btn-secondary btn-sm">Connexion</a>
-        <a href="register.html" class="btn-primary btn-sm hidden sm:inline-flex">Inscription</a>
+        <a href="/pages/login.html" class="btn-secondary btn-sm">Connexion</a>
+        <a href="/pages/register.html" class="btn-primary btn-sm hidden sm:inline-flex">Inscription</a>
       </div>
 
       <!-- Connecté -->
       <div id="nav-user" class="hidden items-center gap-2">
-        <a href="my-loans.html" class="btn-ghost btn-sm hidden sm:flex" id="nav-my-loans">Mes emprunts</a>
+        <a href="/pages/my-loans.html" class="btn-ghost btn-sm hidden sm:flex" id="nav-my-loans">Mes emprunts</a>
         <div class="relative" id="nav-user-menu">
           <button id="user-menu-btn" class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 transition-colors">
             <div class="w-7 h-7 rounded-lg bg-primary-600/30 border border-primary-500/30 flex items-center justify-center text-primary-300 text-xs font-bold" id="user-avatar">?</div>
@@ -61,21 +61,21 @@
             </svg>
           </button>
           <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl bg-slate-900 border border-slate-700/60 shadow-xl z-50 overflow-hidden">
-            <a href="profile.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+            <a href="/pages/profile.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
               Mon profil
             </a>
-            <a href="my-loans.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+            <a href="/pages/my-loans.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
               Mes emprunts
             </a>
-            <a href="requests.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+            <a href="/pages/requests.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               Signaler un livre
             </a>
             <div id="nav-admin-link" class="hidden">
               <div class="border-t border-slate-700/60 my-1"></div>
-              <a href="admin/index.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-300 hover:bg-slate-800 transition-colors">
+              <a href="/pages/admin/index.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-300 hover:bg-slate-800 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Administration
               </a>
@@ -183,7 +183,7 @@
         </svg>
       </div>
       <h3 class="font-serif text-xl text-white mb-2">Aucun ouvrage trouvé</h3>
-      <p class="text-slate-500 text-sm mb-6">Essayez d'autres termes ou <a href="requests.html" class="text-primary-400 underline">signalez ce livre</a> comme recherché.</p>
+      <p class="text-slate-500 text-sm mb-6">Essayez d'autres termes ou <a href="/pages/requests.html" class="text-primary-400 underline">signalez ce livre</a> comme recherché.</p>
       <button id="clear-search" class="btn-secondary btn-sm">Réinitialiser la recherche</button>
     </div>
 
