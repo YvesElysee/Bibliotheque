@@ -34,7 +34,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://books.google.com', 'https://lh3.googleusercontent.com'],
+      'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://*.openlibrary.org', 'https://books.google.com', 'https://*.google.com', 'https://*.googleusercontent.com', 'https://*.archive.org'],
     },
   },
 }));

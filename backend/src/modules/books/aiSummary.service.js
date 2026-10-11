@@ -14,7 +14,14 @@ async function generateBookSummary({ title, author, year, summary }) {
     throw err;
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+  // Modèles disponibles (du plus récent au plus ancien). Google retire parfois
+  // un modèle ; on essaie automatiquement le suivant si le premier est retiré.
+  const candidates = [
+    process.env.GEMINI_MODEL,
+    'gemini-3.8-flash',
+    'gemini-2.5-flash',
+    'gemini-2.0-flash',
+  ].filter((m, i, arr) => m && arr.indexOf(m) === i);
 
   const prompt = [
     'Tu es un bibliothécaire catholique qui rédige de courtes présentations de livres en français.',
@@ -28,36 +35,41 @@ async function generateBookSummary({ title, author, year, summary }) {
     'Contraintes : renvoie UNIQUEMENT le résumé, en français, sans HTML, sans titre d\'introduction, sans guillemets décoratifs.',
   ].filter(Boolean).join('\n');
 
-  let res;
-  try {
-    res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.4, maxOutputTokens: 350 },
-        }),
-      }
-    );
-  } catch (e) {
-    const err = new Error('Impossible de joindre l\'IA (vérifiez la connexion internet du serveur).');
-    err.statusCode = 502;
-    throw err;
+  let lastReason = '';
+  for (const model of candidates) {
+    let res;
+    try {
+      res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.4, maxOutputTokens: 350 },
+          }),
+        }
+      );
+    } catch (e) {
+      throw new Error('Impossible de joindre l\'IA (vérifiez la connexion internet du serveur).');
+    }
+
+    const data = await res.json().catch(() => null);
+    const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join(' ') || '';
+
+    if (res.ok && text) {
+      return text.trim();
+    }
+    lastReason = data?.error?.message || `Réponse IA inattendue (HTTP ${res.status}).`;
+
+    // Le modèle n'existe plus / a été retiré → on essaie le modèle suivant.
+    const unavailable = /no longer available|not found|do not exist|not supported|404/i.test(lastReason);
+    if (!unavailable) break;
   }
 
-  const data = await res.json().catch(() => null);
-  const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join(' ') || '';
-
-  if (!res.ok || !text) {
-    const reason = data?.error?.message || `Réponse IA inattendue (HTTP ${res.status}).`;
-    const err = new Error(`L'IA n'a pas pu générer le résumé : ${reason}`);
-    err.statusCode = 502;
-    throw err;
-  }
-
-  return text.trim();
+  const err = new Error(`L'IA n'a pas pu générer le résumé : ${lastReason}`);
+  err.statusCode = 502;
+  throw err;
 }
 
 module.exports = { generateBookSummary };

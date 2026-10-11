@@ -681,9 +681,10 @@ async function performIsbnLookup(rawIsbn) {
     if (d.coverUrl) {
       form.querySelector('input[name="coverUrl"]').value = d.coverUrl;
       updateCoverPreview();
+      toast.success('Ouvrage identifié : champs remplis automatiquement (photo comprise).');
+    } else {
+      toast.warning('Ouvrage identifié, mais aucune photo de couverture trouvée dans les bases gratuites. Vous pouvez coller une URL d\'image manuellement.');
     }
-
-    toast.success('Ouvrage identifié : champs remplis automatiquement (photo comprise).');
   } catch (err) {
     console.error(err);
     toast.error(err.message || 'ISBN non répertorié dans les bases en ligne.');

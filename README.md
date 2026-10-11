@@ -177,9 +177,9 @@ Nécessaire uniquement pour envoyer la **vérification d'email** et les **liens 
 2. Puis dans `backend/.env` :
    ```env
    GEMINI_API_KEY=TaCléGratuiteCommenceParAIza...
-   GEMINI_MODEL=gemini-2.0-flash
+   GEMINI_MODEL=gemini-3.8-flash
    ```
-3. Redémarrez le serveur.
+3. Redémarrez le serveur. (Si le modèle indiqué est retiré par Google, le serveur bascule automatiquement sur le modèle suivant disponible.)
 
 Sans clé, le bouton affiche un message explicatif (aucun frais, la fonction se limite à l'ISBN/description de Google Books).
 
