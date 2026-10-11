@@ -39,7 +39,7 @@ export function createBookCard(book, onClick) {
   card.innerHTML = `
     <div class="book-card__cover">
       ${coverSrc
-        ? `<img src="${coverSrc}" alt="Couverture de ${book.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\"book-card__cover-placeholder\\">${PLACEHOLDER_ICON}</div>'">`
+        ? `<img src="${coverSrc}" alt="Couverture de ${book.title}" loading="lazy">`
         : `<div class="book-card__cover-placeholder">${PLACEHOLDER_ICON}</div>`
       }
       <div class="absolute top-2 right-2">
@@ -58,6 +58,16 @@ export function createBookCard(book, onClick) {
       </div>
     </div>
   `;
+
+  // Image de couverture indisponible → on affiche le placeholder.
+  // (Écouteur ajouté en JS, pas d'attribut inline : respecte la CSP script-src-attr 'none'.)
+  const coverImg = card.querySelector('.book-card__cover img');
+  if (coverImg) {
+    coverImg.addEventListener('error', () => {
+      const parent = coverImg.parentElement;
+      if (parent) parent.innerHTML = `<div class="book-card__cover-placeholder">${PLACEHOLDER_ICON}</div>`;
+    });
+  }
 
   const handleClick = () => onClick?.(book);
   card.addEventListener('click', handleClick);

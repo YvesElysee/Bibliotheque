@@ -29,15 +29,26 @@ app.set('trust proxy', 1);
 // img-src : on autorise en plus les couvertures hébergées chez les fournisseurs
 // (Google Books, Open Library). Les couvertures téléchargées en local (/uploads)
 // restent servies en même origine ('self') et sont donc toujours autorisées.
+const isProd = process.env.NODE_ENV === 'production';
+const cspDirectives = {
+  ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+  'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://*.openlibrary.org', 'https://books.google.com', 'https://*.google.com', 'https://*.googleusercontent.com', 'https://*.archive.org'],
+  'connect-src': ["'self'"],
+};
+// En développement (accès http local/LAN), on n'impose pas l'HTTPS forcé,
+// sinon le navigateur réécrit les requêtes en https:// et casse l'appli locale.
+if (!isProd) delete cspDirectives['upgrade-insecure-requests'];
+
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://*.openlibrary.org', 'https://books.google.com', 'https://*.google.com', 'https://*.googleusercontent.com', 'https://*.archive.org'],
-    },
-  },
+  contentSecurityPolicy: { useDefaults: false, directives: cspDirectives },
 }));
+
+// Autorisations navigateur minimales : on désactive ce dont l'appli n'a pas besoin.
+app.use((_req, res, next) => {
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+  next();
+});
 
 // Application interne : le front est servi par ce même serveur (même origine).
 // On reflète l'origine appelante pour permettre aussi l'accès via IP locale en LAN
@@ -83,6 +94,9 @@ app.get('/api/health', (_req, res) => {
 });
 
 // ─── Frontend statique (même origine → pas de CORS, API sur /api) ─────────────
+// Requête automatique de Chrome DevTools : on répond 204 pour éviter un 404 inutile.
+app.get('/.well-known/appspecific/com.chrome.devtools.json', (_req, res) => res.status(204).end());
+
 const frontendPath = path.join(__dirname, '../../frontend');
 app.use(express.static(frontendPath));
 app.get('/', (_req, res) => res.sendFile(path.join(frontendPath, 'pages/index.html')));
