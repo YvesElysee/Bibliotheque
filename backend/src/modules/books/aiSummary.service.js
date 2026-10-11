@@ -62,9 +62,9 @@ async function generateBookSummary({ title, author, year, summary }) {
     }
     lastReason = data?.error?.message || `Réponse IA inattendue (HTTP ${res.status}).`;
 
-    // Le modèle n'existe plus / a été retiré → on essaie le modèle suivant.
-    const unavailable = /no longer available|not found|do not exist|not supported|404/i.test(lastReason);
-    if (!unavailable) break;
+    // Modèle retiré, saturé ou en surcharge → on essaie le modèle suivant.
+    const retryable = /no longer available|not found|do not exist|not supported|high demand|overloaded|temporarily|rate limit|quota|resource.?exhausted|429|500|503|404/i.test(lastReason);
+    if (!retryable) break;
   }
 
   const err = new Error(`L'IA n'a pas pu générer le résumé : ${lastReason}`);
