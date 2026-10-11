@@ -167,6 +167,26 @@ Nécessaire uniquement pour envoyer la **vérification d'email** et les **liens 
 
 ---
 
+## 🔍 ISBN & Résumé IA (ajout de livres)
+
+**Remplissage automatique par ISBN** (gratuit, aucun compte requis) : dans l'admin → « Ajouter un livre », saisissez l'ISBN puis **Rechercher**. Le serveur interroge **Google Books** + **Open Library**, remplit titre, auteur, maison d'édition, année, nombre de pages, langue, résumé et **télécharge la couverture** sur le serveur (`/uploads/covers/`). L'administrateur complète ensuite le reste (cote, exemplaires, catégories).
+
+**Résumé automatique par IA** (gratuit) : bouton « Résumé IA » dans le formulaire. Il utilise **Google Gemini** (offre gratuite, ~1500 demandes/jour) :
+
+1. Obtenez une clé gratuite : https://aistudio.google.com/apikey
+2. Puis dans `backend/.env` :
+   ```env
+   GEMINI_API_KEY=TaCléGratuiteCommenceParAIza...
+   GEMINI_MODEL=gemini-2.0-flash
+   ```
+3. Redémarrez le serveur.
+
+Sans clé, le bouton affiche un message explicatif (aucun frais, la fonction se limite à l'ISBN/description de Google Books).
+
+> 💡 **Fiabilité du lookup** : sans clé, Google Books peut refuser (quota public parfois saturé) et Open Library couvre peu les éditions françaises. Pour un remplissage **garanti** sur les livres francophones, ajoutez aussi une clé **Google Books** (gratuite, https://console.cloud.google.com/apis → activer « Books API » → clé API) dans `GOOGLE_BOOKS_API_KEY`.
+
+---
+
 ## 🔑 Identifiants Préconfigurés (Seed)
 
 | Rôle | Email | Mot de passe |

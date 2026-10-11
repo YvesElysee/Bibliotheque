@@ -36,3 +36,7 @@ services:
         sync: false
       - key: SMTP_PASS
         sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_BOOKS_API_KEY
+        sync: false

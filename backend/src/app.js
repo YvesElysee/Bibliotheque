@@ -26,8 +26,17 @@ const app = express();
 app.set('trust proxy', 1);
 
 // ─── Sécurité ────────────────────────────────────────────────────────────────
+// img-src : on autorise en plus les couvertures hébergées chez les fournisseurs
+// (Google Books, Open Library). Les couvertures téléchargées en local (/uploads)
+// restent servies en même origine ('self') et sont donc toujours autorisées.
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://books.google.com', 'https://lh3.googleusercontent.com'],
+    },
+  },
 }));
 
 // Application interne : le front est servi par ce même serveur (même origine).

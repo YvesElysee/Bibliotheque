@@ -1,4 +1,6 @@
 const booksService = require('./books.service');
+const { lookupBookByIsbn } = require('./books.lookup.service');
+const { generateBookSummary } = require('./aiSummary.service');
 const { success, created, paginated } = require('../../utils/apiResponse');
 const { auditLog } = require('../../utils/audit');
 
@@ -47,4 +49,34 @@ const getStats = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-module.exports = { getBooks, getBook, createBook, updateBook, deleteBook, getStats };
+const lookupBook = async (req, res, next) => {
+  try {
+    if (typeof req.query.isbn !== 'string' || !req.query.isbn.trim()) {
+      const err = new Error('Paramètre ISBN requis.');
+      err.statusCode = 400;
+      throw err;
+    }
+    const data = await lookupBookByIsbn(req.query.isbn.trim());
+    return success(res, data);
+  } catch (err) { next(err); }
+};
+
+const aiSummary = async (req, res, next) => {
+  try {
+    const { title, author, year, summary } = req.body || {};
+    if (!title || !title.trim()) {
+      const err = new Error('Champ titre requis pour générer un résumé.');
+      err.statusCode = 400;
+      throw err;
+    }
+    const text = await generateBookSummary({
+      title: title.trim(),
+      author: author?.trim(),
+      year,
+      summary: summary?.trim(),
+    });
+    return success(res, { summary: text });
+  } catch (err) { next(err); }
+};
+
+module.exports = { getBooks, getBook, createBook, updateBook, deleteBook, getStats, lookupBook, aiSummary };

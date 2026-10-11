@@ -9,6 +9,12 @@ const router = Router();
 // Routes publiques (catalogue accessible sans connexion)
 router.get('/', optionalAuth, validateQuery(bookQuerySchema), controller.getBooks);
 router.get('/stats', controller.getStats);
+
+// Intégrations externes : recherche ISBN + résumé IA (protégées — bibliothécaires/admin)
+// ⚠️ DOIVENT être déclarées AVANT "/:id" sinon "lookup" serait interprété comme un id.
+router.get('/lookup', authenticate, authorize('LIBRARIAN', 'ADMIN'), controller.lookupBook);
+router.post('/ai-summary', authenticate, authorize('LIBRARIAN', 'ADMIN'), controller.aiSummary);
+
 router.get('/:id', optionalAuth, controller.getBook);
 
 // Routes protégées — LIBRARIAN / ADMIN uniquement

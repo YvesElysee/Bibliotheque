@@ -504,6 +504,11 @@ function openAddBookModal() {
         </div>
 
         <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Nombre de pages</label>
+          <input type="number" name="pageCount" min="1" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Ex: 452" />
+        </div>
+
+        <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Nombre d'exemplaires *</label>
           <input type="number" name="totalCopies" min="1" max="100" value="1" required class="form-input text-sm py-2 rounded-xl w-full" />
         </div>
@@ -526,12 +531,24 @@ function openAddBookModal() {
         </div>
 
         <div class="sm:col-span-2">
-          <label class="block text-xs font-medium text-slate-300 mb-1">URL de la couverture (ou image)</label>
-          <input type="url" name="coverUrl" class="form-input text-sm py-2 rounded-xl w-full" placeholder="https://… ou laisser vide pour couverture générée" />
+          <label class="block text-xs font-medium text-slate-300 mb-1">Couverture</label>
+          <div class="flex items-start gap-3">
+            <img id="cover-preview" class="hidden w-20 h-28 object-cover rounded-lg border border-slate-800 bg-slate-900 shrink-0" alt="Aperçu couverture" />
+            <div class="flex-1">
+              <input type="url" name="coverUrl" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Remplie automatiquement via l'ISBN, ou collez une URL d'image…" />
+              <p class="text-[11px] text-slate-400 mt-1">La couverture est téléchargée et stockée sur le serveur automatiquement lors de la recherche ISBN.</p>
+            </div>
+          </div>
         </div>
 
         <div class="sm:col-span-2">
-          <label class="block text-xs font-medium text-slate-300 mb-1">Résumé / Description de l'ouvrage</label>
+          <label class="flex items-center justify-between text-xs font-medium text-slate-300 mb-1">
+            <span>Résumé / Description de l'ouvrage</span>
+            <button type="button" id="ai-summary-btn" class="btn btn-secondary btn-sm text-xs flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              Résumé IA (gratuit)
+            </button>
+          </label>
           <textarea name="summary" rows="3" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Bref résumé permettant aux prêtres et étudiants de cerner le sujet du livre…"></textarea>
         </div>
 
@@ -560,13 +577,23 @@ function openAddBookModal() {
 
   document.getElementById('cancel-add-book').onclick = closeModal;
 
-  // Handler auto-remplissage ISBN
+  // Handler auto-remplissage ISBN (via le serveur : Google Books + Open Library)
   const lookupBtn = document.getElementById('isbn-lookup-btn');
   const lookupInput = document.getElementById('isbn-lookup-input');
   lookupBtn.onclick = () => performIsbnLookup(lookupInput.value.trim());
+  lookupInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); performIsbnLookup(lookupInput.value.trim()); } });
 
   // Form submit
   const form = document.getElementById('add-book-form');
+
+  // Prévisualisation de la couverture dès que le champ change
+  const coverInput = form?.querySelector('input[name="coverUrl"]');
+  coverInput?.addEventListener('input', updateCoverPreview);
+  updateCoverPreview();
+
+  // Résumé automatique via IA
+  document.getElementById('ai-summary-btn')?.addEventListener('click', generateAiSummary);
+
   form.onsubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(form);
@@ -580,6 +607,7 @@ function openAddBookModal() {
       publisher: formData.get('publisher')?.trim() || null,
       isbn: formData.get('isbn')?.trim() || null,
       year: formData.get('year') ? parseInt(formData.get('year'), 10) : null,
+      pageCount: formData.get('pageCount') ? parseInt(formData.get('pageCount'), 10) : null,
       totalCopies: parseInt(formData.get('totalCopies'), 10) || 1,
       location: formData.get('location')?.trim() || null,
       language: formData.get('language') || 'FR',
@@ -609,7 +637,22 @@ function openAddBookModal() {
   };
 }
 
-// Helper auto-lookup ISBN
+// Aperçu de la couverture dans le formulaire d'ajout
+function updateCoverPreview() {
+  const preview = document.getElementById('cover-preview');
+  if (!preview) return;
+  const value = document.getElementById('add-book-form')?.querySelector('input[name="coverUrl"]')?.value?.trim();
+  if (value) {
+    preview.src = resolveAssetUrl(value);
+    preview.classList.remove('hidden');
+  } else {
+    preview.classList.add('hidden');
+    preview.removeAttribute('src');
+  }
+}
+
+// Helper auto-lookup ISBN — côté serveur (Google Books + Open Library),
+// évite le blocage CORS/CSP du navigateur et télécharge la couverture en local.
 async function performIsbnLookup(rawIsbn) {
   if (!rawIsbn) {
     toast.error('Veuillez entrer un numéro ISBN.');
@@ -622,59 +665,61 @@ async function performIsbnLookup(rawIsbn) {
   btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Recherche…`;
 
   try {
-    // 1. Essai avec Google Books API
-    let found = false;
-    const gbRes = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${cleanIsbn}`).then(r => r.json()).catch(() => null);
+    const res = await api.get(`/books/lookup?isbn=${encodeURIComponent(cleanIsbn)}`);
+    const d = res.data;
+    const form = document.getElementById('add-book-form');
+    if (!form) return;
 
-    if (gbRes && gbRes.items && gbRes.items.length > 0) {
-      const info = gbRes.items[0].volumeInfo;
-      const form = document.getElementById('add-book-form');
-      if (form) {
-        if (info.title) form.querySelector('input[name="title"]').value = info.title + (info.subtitle ? `: ${info.subtitle}` : '');
-        if (info.authors) form.querySelector('input[name="author"]').value = info.authors.join(', ');
-        if (info.publisher) form.querySelector('input[name="publishingHouse"]').value = info.publisher;
-        if (info.publishedDate) form.querySelector('input[name="year"]').value = parseInt(info.publishedDate.slice(0, 4), 10) || '';
-        if (info.description) form.querySelector('textarea[name="summary"]').value = info.description;
-        if (cleanIsbn) form.querySelector('input[name="isbn"]').value = cleanIsbn;
-        if (info.imageLinks?.thumbnail) {
-          form.querySelector('input[name="coverUrl"]').value = info.imageLinks.thumbnail.replace('http://', 'https://');
-        }
-        found = true;
-        toast.success('Ouvrage identifié via Google Books !');
-      }
+    if (d.title) form.querySelector('input[name="title"]').value = d.title;
+    if (d.author) form.querySelector('input[name="author"]').value = d.author;
+    if (d.publishingHouse) form.querySelector('input[name="publishingHouse"]').value = d.publishingHouse;
+    if (d.year) form.querySelector('input[name="year"]').value = d.year;
+    if (d.pageCount) form.querySelector('input[name="pageCount"]').value = d.pageCount;
+    if (d.language) form.querySelector('select[name="language"]').value = d.language;
+    form.querySelector('input[name="isbn"]').value = d.isbn;
+    if (d.summary) form.querySelector('textarea[name="summary"]').value = d.summary;
+    if (d.coverUrl) {
+      form.querySelector('input[name="coverUrl"]').value = d.coverUrl;
+      updateCoverPreview();
     }
 
-    // 2. Si pas trouvé, essai avec OpenLibrary
-    if (!found) {
-      const olRes = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${cleanIsbn}&format=json&jscmd=data`).then(r => r.json()).catch(() => null);
-      const key = `ISBN:${cleanIsbn}`;
-      if (olRes && olRes[key]) {
-        const bookData = olRes[key];
-        const form = document.getElementById('add-book-form');
-        if (form) {
-          if (bookData.title) form.querySelector('input[name="title"]').value = bookData.title;
-          if (bookData.authors) form.querySelector('input[name="author"]').value = bookData.authors.map(a => a.name).join(', ');
-          if (bookData.publishers) form.querySelector('input[name="publishingHouse"]').value = bookData.publishers[0]?.name || '';
-          if (bookData.publish_date) {
-            const yearMatch = bookData.publish_date.match(/\d{4}/);
-            if (yearMatch) form.querySelector('input[name="year"]').value = parseInt(yearMatch[0], 10);
-          }
-          if (bookData.cover?.medium || bookData.cover?.large) {
-            form.querySelector('input[name="coverUrl"]').value = bookData.cover.large || bookData.cover.medium;
-          }
-          form.querySelector('input[name="isbn"]').value = cleanIsbn;
-          found = true;
-          toast.success('Ouvrage identifié via Open Library !');
-        }
-      }
-    }
-
-    if (!found) {
-      toast.warning('ISBN non répertorié dans les bases en ligne. Veuillez renseigner manuellement.');
-    }
+    toast.success('Ouvrage identifié : champs remplis automatiquement (photo comprise).');
   } catch (err) {
     console.error(err);
-    toast.error('Erreur lors de la recherche ISBN.');
+    toast.error(err.message || 'ISBN non répertorié dans les bases en ligne.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
+}
+
+// Résumé automatique via IA gratuite (Google Gemini)
+async function generateAiSummary() {
+  const form = document.getElementById('add-book-form');
+  if (!form) return;
+  const title = form.querySelector('input[name="title"]')?.value?.trim();
+  if (!title) {
+    toast.error('Renseignez d\'abord le titre du livre.');
+    return;
+  }
+  const btn = document.getElementById('ai-summary-btn');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Génération…`;
+
+  try {
+    const formData = new FormData(form);
+    const res = await api.post('/books/ai-summary', {
+      title,
+      author: formData.get('author')?.trim() || null,
+      year: formData.get('year') ? parseInt(formData.get('year'), 10) : null,
+      summary: formData.get('summary')?.trim() || null,
+    });
+    form.querySelector('textarea[name="summary"]').value = res.data.summary;
+    toast.success('Résumé généré par l\'IA.');
+  } catch (err) {
+    console.error(err);
+    toast.error(err.message || 'Impossible de générer le résumé.');
   } finally {
     btn.disabled = false;
     btn.innerHTML = originalText;
@@ -727,6 +772,11 @@ async function openEditBookModal(bookId) {
           <div>
             <label class="block text-xs font-medium text-slate-300 mb-1">Année</label>
             <input type="number" name="year" value="${book.year || ''}" class="form-input text-sm py-2 rounded-xl w-full" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Nombre de pages</label>
+            <input type="number" name="pageCount" min="1" value="${book.pageCount || ''}" class="form-input text-sm py-2 rounded-xl w-full" />
           </div>
 
           <div>
@@ -799,6 +849,7 @@ async function openEditBookModal(bookId) {
         publisher: formData.get('publisher')?.trim() || null,
         isbn: formData.get('isbn')?.trim() || null,
         year: formData.get('year') ? parseInt(formData.get('year'), 10) : null,
+        pageCount: formData.get('pageCount') ? parseInt(formData.get('pageCount'), 10) : null,
         totalCopies: parseInt(formData.get('totalCopies'), 10) || 1,
         location: formData.get('location')?.trim() || null,
         language: formData.get('language') || 'FR',
