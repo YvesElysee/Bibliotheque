@@ -1,5 +1,18 @@
 const { z } = require('zod');
 
+// Une couverture peut être :
+//  - une URL distante (http/https),
+//  - un chemin local téléchargé par le serveur (/uploads/covers/…),
+//     y compris après téléversement manuel d'une image via POST /api/books/cover.
+const coverUrlSchema = z
+  .string()
+  .max(2048)
+  .refine(
+    (v) => v === '' || v.startsWith('/uploads/') || /^https?:\/\//i.test(v),
+    { message: 'URL de couverture invalide.' }
+  )
+  .nullish();
+
 const createBookSchema = z.object({
   title: z.string().min(1).max(255),
   author: z.string().min(1).max(255),
@@ -11,7 +24,7 @@ const createBookSchema = z.object({
   language: z.string().max(10).default('fr'),
   pageCount: z.number().int().positive().nullish(),
   summary: z.string().max(5000).nullish(),
-  coverUrl: z.string().url().nullish(),
+  coverUrl: coverUrlSchema,
   totalCopies: z.number().int().min(1).default(1),
   location: z.string().max(100).nullish(),
   tags: z.array(z.string()).default([]),

@@ -534,9 +534,17 @@ function openAddBookModal() {
           <label class="block text-xs font-medium text-slate-300 mb-1">Couverture</label>
           <div class="flex items-start gap-3">
             <img id="cover-preview" class="hidden w-20 h-28 object-cover rounded-lg border border-slate-800 bg-slate-900 shrink-0" alt="Aperçu couverture" />
-            <div class="flex-1">
-              <input type="url" name="coverUrl" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Remplie automatiquement via l'ISBN, ou collez une URL d'image…" />
-              <p class="text-[11px] text-slate-400 mt-1">La couverture est téléchargée et stockée sur le serveur automatiquement lors de la recherche ISBN.</p>
+            <div class="flex-1 space-y-2">
+              <input type="text" name="coverUrl" class="form-input text-sm py-2 rounded-xl w-full" placeholder="Remplie automatiquement via l'ISBN, ou collez une URL d'image…" />
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="file" id="cover-file-input" accept="image/*" class="hidden" />
+                <button type="button" id="cover-upload-btn" class="btn btn-secondary btn-sm text-xs flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  Téléverser une image
+                </button>
+                <button type="button" id="cover-clear-btn" class="btn btn-secondary btn-sm text-xs">Retirer</button>
+              </div>
+              <p class="text-[11px] text-slate-400">Si aucune couverture n'est trouvée automatiquement, ajoutez-la ici (JPEG, PNG, WEBP ou GIF — 5 Mo max).</p>
             </div>
           </div>
         </div>
@@ -591,6 +599,15 @@ function openAddBookModal() {
   coverInput?.addEventListener('input', updateCoverPreview);
   updateCoverPreview();
 
+  // Téléversement manuel d'une image de couverture
+  setupCoverUpload({
+    form,
+    fileInputId: 'cover-file-input',
+    uploadBtnId: 'cover-upload-btn',
+    clearBtnId: 'cover-clear-btn',
+    previewId: 'cover-preview',
+  });
+
   // Résumé automatique via IA
   document.getElementById('ai-summary-btn')?.addEventListener('click', generateAiSummary);
 
@@ -639,16 +656,78 @@ function openAddBookModal() {
 
 // Aperçu de la couverture dans le formulaire d'ajout
 function updateCoverPreview() {
-  const preview = document.getElementById('cover-preview');
-  if (!preview) return;
   const value = document.getElementById('add-book-form')?.querySelector('input[name="coverUrl"]')?.value?.trim();
-  if (value) {
-    preview.src = resolveAssetUrl(value);
+  setCoverPreview('cover-preview', value);
+}
+
+// Affiche/actualise l'aperçu d'une couverture dans un formulaire donné
+function setCoverPreview(previewId, value) {
+  const preview = document.getElementById(previewId);
+  if (!preview) return;
+  const v = (value || '').trim();
+  if (v) {
+    preview.src = resolveAssetUrl(v);
     preview.classList.remove('hidden');
   } else {
     preview.classList.add('hidden');
     preview.removeAttribute('src');
   }
+}
+
+// Branche le bouton « Téléverser une image » d'un formulaire de livre.
+// L'image est envoyée au serveur (data-URL) qui la stocke dans /uploads/covers
+// puis renvoie un chemin local. Aucune dépendance externe nécessaire.
+function setupCoverUpload({ form, fileInputId, uploadBtnId, clearBtnId, previewId }) {
+  const fileInput = document.getElementById(fileInputId);
+  const uploadBtn = document.getElementById(uploadBtnId);
+  const clearBtn = document.getElementById(clearBtnId);
+  const input = form?.querySelector('input[name="coverUrl"]');
+  if (!fileInput || !uploadBtn || !input) return;
+
+  uploadBtn.addEventListener('click', () => fileInput.click());
+
+  clearBtn?.addEventListener('click', () => {
+    input.value = '';
+    setCoverPreview(previewId, '');
+  });
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files?.[0];
+    fileInput.value = ''; // permet de re-sélectionner le même fichier
+    if (!file) return;
+
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowed.includes(file.type)) {
+      toast.error('Format non supporté. Utilisez JPEG, PNG, WEBP ou GIF.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image trop lourde (5 Mo maximum).');
+      return;
+    }
+
+    const original = uploadBtn.innerHTML;
+    uploadBtn.disabled = true;
+    uploadBtn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Envoi…`;
+    try {
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await api.post('/books/cover', { dataUrl });
+      input.value = res.data.coverUrl;
+      setCoverPreview(previewId, res.data.coverUrl);
+      toast.success('Couverture téléversée avec succès.');
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || 'Échec du téléversement de la couverture.');
+    } finally {
+      uploadBtn.disabled = false;
+      uploadBtn.innerHTML = original;
+    }
+  });
 }
 
 // Helper auto-lookup ISBN — côté serveur (Google Books + Open Library),
@@ -803,8 +882,22 @@ async function openEditBookModal(bookId) {
           </div>
 
           <div class="sm:col-span-2">
-            <label class="block text-xs font-medium text-slate-300 mb-1">URL de couverture</label>
-            <input type="url" name="coverUrl" value="${escapeHtml(book.coverUrl || '')}" class="form-input text-sm py-2 rounded-xl w-full" />
+            <label class="block text-xs font-medium text-slate-300 mb-1">Couverture</label>
+            <div class="flex items-start gap-3">
+              <img id="cover-preview-edit" class="${book.coverUrl ? '' : 'hidden'} w-20 h-28 object-cover rounded-lg border border-slate-800 bg-slate-900 shrink-0" src="${book.coverUrl ? resolveAssetUrl(book.coverUrl) : ''}" alt="Aperçu couverture" />
+              <div class="flex-1 space-y-2">
+                <input type="text" name="coverUrl" value="${escapeHtml(book.coverUrl || '')}" class="form-input text-sm py-2 rounded-xl w-full" placeholder="URL d'image ou couverture téléversée…" />
+                <div class="flex flex-wrap items-center gap-2">
+                  <input type="file" id="cover-file-input-edit" accept="image/*" class="hidden" />
+                  <button type="button" id="cover-upload-btn-edit" class="btn btn-secondary btn-sm text-xs flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    Téléverser une image
+                  </button>
+                  <button type="button" id="cover-clear-btn-edit" class="btn btn-secondary btn-sm text-xs">Retirer</button>
+                </div>
+                <p class="text-[11px] text-slate-400">Remplacez la couverture manuellement (JPEG, PNG, WEBP ou GIF — 5 Mo max).</p>
+              </div>
+            </div>
           </div>
 
           <div class="sm:col-span-2">
@@ -838,6 +931,15 @@ async function openEditBookModal(bookId) {
     document.getElementById('cancel-edit-book').onclick = closeModal;
 
     const form = document.getElementById('edit-book-form');
+
+    setupCoverUpload({
+      form,
+      fileInputId: 'cover-file-input-edit',
+      uploadBtnId: 'cover-upload-btn-edit',
+      clearBtnId: 'cover-clear-btn-edit',
+      previewId: 'cover-preview-edit',
+    });
+
     form.onsubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(form);

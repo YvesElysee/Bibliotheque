@@ -18,6 +18,7 @@ async function fetchJson(url) {
     const res = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (Bibliotheque-Congregation)' },
       redirect: 'follow',
+      signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return null;
     return res.json();
@@ -35,6 +36,7 @@ async function downloadCoverLocally(url, hint) {
     const res = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (Bibliotheque-Congregation)' },
       redirect: 'follow',
+      signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) return null;
     const contentType = (res.headers.get('content-type') || '').toLowerCase();
@@ -136,4 +138,53 @@ async function lookupBookByIsbn(rawIsbn) {
   return result;
 }
 
-module.exports = { lookupBookByIsbn, downloadCoverLocally };
+/**
+ * Recherche une couverture par TITRE (+ auteur) — utilisé lors de l'import en
+ * masse, car ces livres n'ont pas d'ISBN. Google Books d'abord, puis Open Library.
+ * Télécharge l'image en local quand c'est possible.
+ */
+async function searchCoverByTitle(title, author) {
+  if (!title) return null;
+  const gbKey = process.env.GOOGLE_BOOKS_API_KEY;
+  const authorMain = String(author || '').split(/,| et /i)[0].trim();
+
+  // 1) Google Books — recherche par titre (+ auteur)
+  try {
+    const q = `intitle:${JSON.stringify(title)}` + (authorMain ? `+inauthor:${JSON.stringify(authorMain)}` : '');
+    const gbUrl =
+      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=5&country=FR` +
+      (gbKey ? `&key=${encodeURIComponent(gbKey)}` : '');
+    const gb = await fetchJson(gbUrl);
+    for (const item of gb?.items || []) {
+      const info = item.volumeInfo || {};
+      const cover = pickCover([
+        info.imageLinks?.large,
+        info.imageLinks?.medium,
+        info.imageLinks?.thumbnail,
+        info.imageLinks?.smallThumbnail,
+      ]);
+      if (cover) {
+        const upgraded = cover.replace(/[&?]zoom=\d/, '&zoom=2');
+        const local = await downloadCoverLocally(upgraded, title);
+        if (local) return local;
+        if (upgraded) return upgraded;
+      }
+    }
+  } catch (e) { /* source indisponible */ }
+
+  // 2) Open Library — recherche par titre
+  try {
+    const olUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(title)}&limit=5`;
+    const ol = await fetchJson(olUrl);
+    for (const doc of ol?.docs || []) {
+      if (doc.cover_i) {
+        const local = await downloadCoverLocally(`https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`, title);
+        if (local) return local;
+      }
+    }
+  } catch (e) { /* source indisponible */ }
+
+  return null;
+}
+
+module.exports = { lookupBookByIsbn, downloadCoverLocally, searchCoverByTitle };

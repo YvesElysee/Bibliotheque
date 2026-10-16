@@ -79,4 +79,19 @@ const aiSummary = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-module.exports = { getBooks, getBook, createBook, updateBook, deleteBook, getStats, lookupBook, aiSummary };
+// Téléversement manuel d'une couverture (image encodée en data-URL).
+const uploadCover = async (req, res, next) => {
+  try {
+    const dataUrl = req.body?.dataUrl;
+    if (!dataUrl) {
+      const err = new Error('Aucune image fournie.');
+      err.statusCode = 400;
+      throw err;
+    }
+    const coverUrl = booksService.saveCoverFromDataUrl(dataUrl);
+    await auditLog({ userId: req.user.id, action: 'UPLOAD_COVER', entityType: 'book', ipAddress: req.ip });
+    return success(res, { coverUrl }, 'Couverture téléversée.');
+  } catch (err) { next(err); }
+};
+
+module.exports = { getBooks, getBook, createBook, updateBook, deleteBook, getStats, lookupBook, aiSummary, uploadCover };

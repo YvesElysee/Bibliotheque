@@ -185,6 +185,32 @@ Sans clé, le bouton affiche un message explicatif (aucun frais, la fonction se 
 
 > 💡 **Fiabilité du lookup** : sans clé, Google Books peut refuser (quota public parfois saturé) et Open Library couvre peu les éditions françaises. Pour un remplissage **garanti** sur les livres francophones, ajoutez aussi une clé **Google Books** (gratuite, https://console.cloud.google.com/apis → activer « Books API » → clé API) dans `GOOGLE_BOOKS_API_KEY`.
 
+**Ajout manuel de couverture** : quand aucune image n'est trouvée en ligne (fréquent pour les ouvrages locaux/africains), les formulaires **Ajouter** et **Modifier** un livre disposent d'un bouton **« Téléverser une image »**. L'image est envoyée au serveur (`POST /api/books/cover`), stockée dans `/uploads/covers/`, et servie en local — aucune dépendance externe requise. Formats acceptés : JPEG, PNG, WEBP, GIF (5 Mo max).
+
+---
+
+## 📥 Import en masse (fichiers .docx)
+
+L'application peut importer directement des répertoires de livres saisis dans Word. Le script `backend/scripts/import-books.js` lit `backend/scripts/data/books-import.json` (une ligne par livre : auteur, titre, éditeur, année, catégorie, langue) et crée les livres dans la base.
+
+```bash
+cd backend
+
+# Aperçu (sans rien écrire) — vérifiez d'abord le fichier JSON
+node scripts/import-books.js --dry-run
+
+# Import complet (couvertures recherchées en ligne, aucun résumé IA)
+npm run db:import-books
+
+# Variantes utiles
+node scripts/import-books.js --reset        # efface TOUS les livres avant l'import
+node scripts/import-books.js --limit 10     # n'importe que 10 livres (test)
+node scripts/import-books.js --no-cover     # ignore la recherche de couvertures
+node scripts/import-books.js --ai           # génère les résumés IA (optionnel)
+```
+
+Les catégories manquantes (`Littérature`, `Dictionnaires`) sont créées automatiquement. Les résumés IA sont volontairement **désactivés** par défaut dans l'import : l'administrateur peut les rédiger ensuite directement dans la fiche de chaque livre.
+
 ---
 
 ## 🔑 Identifiants Préconfigurés (Seed)

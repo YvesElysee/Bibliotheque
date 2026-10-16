@@ -1,5 +1,53 @@
 const prisma = require('../../config/database');
 const { getPagination } = require('../../utils/pagination');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+
+const COVERS_DIR = path.join(__dirname, '../../../uploads/covers');
+const COVER_MIME_EXT = {
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/gif': 'gif',
+};
+
+/**
+ * Enregistre une couverture téléversée (data-URL base64) dans /uploads/covers/.
+ * Renvoie le chemin local relatif, exploitable directement dans <img src>.
+ */
+const saveCoverFromDataUrl = (dataUrl) => {
+  const m = /^data:(image\/[a-z0-9.+-]+);base64,(.+)$/i.exec(String(dataUrl || '').trim());
+  if (!m) {
+    const err = new Error('Format d\'image invalide.');
+    err.statusCode = 400;
+    throw err;
+  }
+  const mime = m[1].toLowerCase();
+  const ext = COVER_MIME_EXT[mime];
+  if (!ext) {
+    const err = new Error('Type d\'image non supporté (JPEG, PNG, WEBP ou GIF).');
+    err.statusCode = 400;
+    throw err;
+  }
+  const buffer = Buffer.from(m[2], 'base64');
+  if (!buffer.length) {
+    const err = new Error('Fichier image vide.');
+    err.statusCode = 400;
+    throw err;
+  }
+  if (buffer.length > 5 * 1024 * 1024) {
+    const err = new Error('Image trop volumineuse (5 Mo maximum).');
+    err.statusCode = 413;
+    throw err;
+  }
+  fs.mkdirSync(COVERS_DIR, { recursive: true });
+  const filename = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}.${ext}`;
+  fs.writeFileSync(path.join(COVERS_DIR, filename), buffer);
+  return `/uploads/covers/${filename}`;
+};
+
 
 const BOOK_SELECT = {
   id: true,
@@ -174,4 +222,4 @@ const getBookStats = async () => {
   return { total, available, borrowed, categories };
 };
 
-module.exports = { getBooks, getBookById, createBook, updateBook, deleteBook, getBookStats };
+module.exports = { getBooks, getBookById, createBook, updateBook, deleteBook, getBookStats, saveCoverFromDataUrl };
