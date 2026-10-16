@@ -5,8 +5,12 @@ node_modules/
 backend/.env
 .env
 
-# Fichiers téléversés (couvertures...) — non nécessaires au déploiement
-backend/uploads/
+# Fichiers téléversés : on ignore tout SAUF les couvertures, qui doivent être
+# déployées avec le site (l'offre gratuite Render n'a pas de disque persistant,
+# donc un fichier uploadé en ligne serait perdu à chaque redéploiement).
+backend/uploads/*
+!backend/uploads/covers/
+!backend/uploads/covers/**
 
 # Logs et divers OS
 *.log
