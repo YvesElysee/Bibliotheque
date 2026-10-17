@@ -2,7 +2,7 @@ const prisma = require('../../config/database');
 const { sendEmail } = require('../../config/email');
 const { logger } = require('../../utils/logger');
 
-const LIBRARY_NAME = process.env.LIBRARY_NAME || 'Bibliothèque de la Congrégation';
+const LIBRARY_NAME = process.env.LIBRARY_NAME || 'Bibliothèque Scolasticat Père Piariste';
 
 /**
  * Envoie une confirmation d'emprunt.
