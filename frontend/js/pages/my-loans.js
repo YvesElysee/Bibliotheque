@@ -6,9 +6,11 @@ if (!auth.isAuthenticated()) {
   window.location.href = `login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await auth.ready();
   setupNavbar();
   loadLoans();
+  loadReservations();
 });
 
 function setupNavbar() {
@@ -28,11 +30,8 @@ function setupNavbar() {
       if (!menuBtn.contains(e.target)) dropdown.classList.add('hidden');
     });
 
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      const rt = localStorage.getItem('refresh_token');
-      if (rt) await api.post('/auth/logout', { refreshToken: rt }).catch(() => {});
-      auth.clearSession();
-      window.location.href = 'login.html';
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      auth.logout();
     });
   }
 }
@@ -135,6 +134,60 @@ async function renewUserLoan(loanId) {
     loadLoans();
   } catch (err) {
     toast.error(err.message || 'Impossible de prolonger ce prêt.');
+  }
+}
+
+// ─── Liste d'attente (réservations) ─────────────────────────────────────────────
+async function loadReservations() {
+  const container = document.getElementById('reservations-list');
+  const countEl = document.getElementById('reservations-count');
+  if (!container) return;
+
+  try {
+    const res = await api.get('/reservations/my');
+    const all = res.data || [];
+    const active = all.filter((r) => r.status === 'PENDING' || r.status === 'NOTIFIED');
+    if (countEl) countEl.textContent = active.length;
+
+    if (active.length === 0) {
+      container.innerHTML = `<div class="card py-6 text-center text-sm text-slate-500">Vous n'êtes inscrit à aucune liste d'attente.</div>`;
+      return;
+    }
+
+    container.innerHTML = active.map((r) => `
+      <div class="card p-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4 min-w-0">
+          <div class="w-12 h-16 rounded-lg bg-slate-800 overflow-hidden shrink-0 flex items-center justify-center border border-slate-700/60">
+            ${r.book?.coverUrl ? `<img src="${resolveAssetUrl(r.book.coverUrl)}" alt="" class="w-full h-full object-cover">` : `<svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13"/></svg>`}
+          </div>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-white truncate">${escapeHtml(r.book?.title || 'Livre')}</p>
+            <p class="text-xs text-slate-400 truncate">${escapeHtml(r.book?.author || '')}</p>
+            <p class="text-xs mt-1 ${r.status === 'NOTIFIED' ? 'text-emerald-400' : 'text-amber-400'}">
+              ${r.status === 'NOTIFIED' ? '✅ Disponible — passez le retirer' : `Position ${r.position} dans la file d'attente`}
+            </p>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm text-xs cancel-res-btn shrink-0" data-id="${r.id}">Annuler</button>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.cancel-res-btn').forEach((b) => {
+      b.onclick = () => cancelReservation(b.dataset.id);
+    });
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `<div class="card py-6 text-center text-sm text-slate-500">Aucune réservation à afficher.</div>`;
+  }
+}
+
+async function cancelReservation(id) {
+  try {
+    await api.delete(`/reservations/${id}`);
+    toast.success('Réservation annulée.');
+    loadReservations();
+  } catch (err) {
+    toast.error(err.message || 'Impossible d\'annuler cette réservation.');
   }
 }
 

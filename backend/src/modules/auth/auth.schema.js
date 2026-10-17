@@ -14,7 +14,7 @@ const loginSchema = z.object({
 });
 
 const refreshSchema = z.object({
-  refreshToken: z.string().min(1, 'Refresh token requis'),
+  refreshToken: z.string().min(1).optional(),
 });
 
 const forgotPasswordSchema = z.object({

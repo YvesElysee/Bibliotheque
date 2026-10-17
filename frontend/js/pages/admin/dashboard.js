@@ -4,10 +4,11 @@ import toast from '../../components/toast.js';
 import { createModal, closeModal } from '../../components/modal.js';
 
 // ─── Sécurité : réservé au personnel (LIBRARIAN ou ADMIN) ────────────────────
-if (!auth.isAuthenticated() || !auth.isStaff()) {
-  toast.error('Accès restreint aux administrateurs.');
-  setTimeout(() => { window.location.href = '../login.html'; }, 1000);
+// Vérification synchrone immédiate (drapeau de session non sensible)…
+if (!auth.isAuthenticated()) {
+  window.location.href = '/pages/login.html';
 }
+// …puis vérification du rôle après chargement du profil (voir DOMContentLoaded).
 
 // ─── État global de l'interface admin ─────────────────────────────────────────
 const state = {
@@ -22,6 +23,14 @@ const state = {
 
 // ─── Initialisation ────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
+  // Charger le profil puis vérifier le rôle (admin/bibliothécaire uniquement)
+  await auth.ready();
+  if (!auth.isStaff()) {
+    toast.error('Accès restreint aux administrateurs.');
+    setTimeout(() => { window.location.href = '/pages/login.html'; }, 1000);
+    return;
+  }
+
   setupUserHeader();
   setupNavigation();
   setupGlobalActions();
@@ -50,11 +59,8 @@ function setupUserHeader() {
   // Déconnexion
   const logoutBtn = document.getElementById('admin-logout-btn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-      const rt = localStorage.getItem('refresh_token');
-      if (rt) await api.post('/auth/logout', { refreshToken: rt }).catch(() => {});
-      auth.clearSession();
-      window.location.href = '../login.html';
+    logoutBtn.addEventListener('click', () => {
+      auth.logout();
     });
   }
 }
@@ -162,7 +168,7 @@ function updateHeader(sectionId) {
       pageSubtitle.textContent = 'Livres recherchés mais indisponibles signalés par la communauté';
       break;
     case 'users':
-      pageTitle.textContent = 'Membres de la Congrégation';
+      pageTitle.textContent = 'Membres inscrits';
       pageSubtitle.textContent = 'Gestion des utilisateurs, des accès et des rôles';
       break;
     case 'audit':
@@ -180,9 +186,8 @@ function setupGlobalActions() {
     exportBtn.addEventListener('click', async () => {
       try {
         toast.info('Génération de l’inventaire PDF en cours…');
-        const token = localStorage.getItem('access_token');
         const res = await fetch(`${API_ORIGIN}/api/exports/inventory`, {
-          headers: { Authorization: `Bearer ${token}` }
+          credentials: 'include',
         });
         if (!res.ok) throw new Error('Échec du téléchargement');
         const blob = await res.blob();
@@ -203,6 +208,29 @@ function setupGlobalActions() {
   // Bouton nouvel emprunt
   const newLoanBtn = document.getElementById('new-loan-btn');
   if (newLoanBtn) newLoanBtn.addEventListener('click', openAddLoanModal);
+
+  // Export des étiquettes QR imprimables
+  const labelsBtn = document.getElementById('export-labels-btn');
+  if (labelsBtn) {
+    labelsBtn.addEventListener('click', async () => {
+      try {
+        toast.info('Génération de la feuille d’étiquettes QR…');
+        const res = await fetch(`${API_ORIGIN}/api/exports/labels`, { credentials: 'include' });
+        if (!res.ok) throw new Error('Échec du téléchargement');
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `etiquettes-qr_${new Date().toISOString().slice(0, 10)}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        toast.success('Feuille d’étiquettes téléchargée.');
+      } catch (err) {
+        toast.error('Erreur lors de la génération des étiquettes.');
+      }
+    });
+  }
 
   // Filtres livres
   const booksSearch = document.getElementById('books-search');

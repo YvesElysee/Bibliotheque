@@ -1,19 +1,29 @@
 const jwt = require('jsonwebtoken');
 const { unauthorized, forbidden } = require('../utils/apiResponse');
+const { ACCESS_COOKIE } = require('../utils/cookies');
 
 /**
- * Vérifie l'access token JWT.
+ * Extrait l'access token depuis le cookie HttpOnly (méthode principale)
+ * ou, en repli, depuis l'en-tête Authorization: Bearer (compatibilité).
+ */
+const extractToken = (req) => {
+  if (req.cookies && req.cookies[ACCESS_COOKIE]) return req.cookies[ACCESS_COOKIE];
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) return authHeader.split(' ')[1];
+  return null;
+};
+
+/**
+ * Vérifie l'access token JWT (cookie HttpOnly en priorité).
  */
 const authenticate = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const token = extractToken(req);
+  if (!token) {
     return unauthorized(res, 'Token d\'authentification manquant.');
   }
 
-  const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (err) {
     return next(err);
@@ -35,12 +45,11 @@ const authorize = (...roles) => {
 };
 
 /**
- * Optionnel : authentifie si le token est présent, ne bloque pas sinon.
+ * Optionnel : authentifie si un token est présent, ne bloque pas sinon.
  */
 const optionalAuth = (req, _res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.split(' ')[1];
+  const token = extractToken(req);
+  if (token) {
     try {
       req.user = jwt.verify(token, process.env.JWT_SECRET);
     } catch (_) {

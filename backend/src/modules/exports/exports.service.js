@@ -159,4 +159,114 @@ const generateBookQRCode = async (res, bookId) => {
   res.send(qrBuffer);
 };
 
-module.exports = { generateInventoryPDF, generateLoanSheetPDF, generateBookQRCode };
+/**
+ * Génère une feuille d'étiquettes imprimables (QR codes) à coller sur les livres.
+ * Grille de 3 colonnes ; chaque étiquette : QR code, titre, auteur, cote.
+ * @param {object} res - réponse Express
+ * @param {string[]} [ids] - sous-ensemble d'identifiants de livres (sinon tous)
+ */
+const generateBookLabelsPDF = async (res, ids) => {
+  const where = { isActive: true };
+  if (Array.isArray(ids) && ids.length > 0) where.id = { in: ids };
+
+  const books = await prisma.book.findMany({
+    where,
+    orderBy: [{ title: 'asc' }],
+    select: { id: true, title: true, author: true, location: true },
+    take: 600, // garde-fou
+  });
+
+  const doc = new PDFDocument({ size: 'A4', margin: 0, bufferPages: true });
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename="etiquettes-qr.pdf"');
+  doc.pipe(res);
+
+  const PAGE_W = doc.page.width; // 595
+  const PAGE_H = doc.page.height; // 842
+  const MARGIN = 28;
+  const HEADER_H = 34;
+  const COLS = 3;
+  const ROWS = 7;
+  const GAP_X = 8;
+  const GAP_Y = 8;
+
+  const gridTop = MARGIN + HEADER_H;
+  const usableW = PAGE_W - MARGIN * 2;
+  const usableH = PAGE_H - gridTop - MARGIN;
+  const labelW = (usableW - GAP_X * (COLS - 1)) / COLS;
+  const labelH = (usableH - GAP_Y * (ROWS - 1)) / ROWS;
+
+  const drawHeader = () => {
+    doc.fontSize(11).font('Helvetica-Bold').fillColor('#4F46E5')
+      .text(LIBRARY_NAME, MARGIN, MARGIN - 4, { width: PAGE_W - MARGIN * 2, align: 'left' });
+    doc.fontSize(8).font('Helvetica').fillColor('#6B7280')
+      .text('Étiquettes QR des ouvrages', MARGIN, MARGIN + 11, { width: PAGE_W - MARGIN * 2 });
+    doc.moveTo(MARGIN, MARGIN + 24).lineTo(PAGE_W - MARGIN, MARGIN + 24)
+      .strokeColor('#E5E7EB').lineWidth(0.6).stroke();
+  };
+
+  drawHeader();
+  let slot = 0;
+
+  for (const book of books) {
+    const col = slot % COLS;
+    const row = Math.floor(slot / COLS) % ROWS;
+
+    if (slot > 0 && col === 0 && row === 0) {
+      doc.addPage();
+      drawHeader();
+    }
+
+    const x = MARGIN + col * (labelW + GAP_X);
+    const y = gridTop + row * (labelH + GAP_Y);
+
+    // Cadre de l'étiquette (pointillés légers pour le découpage)
+    doc.roundedRect(x, y, labelW, labelH, 4)
+      .strokeColor('#CBD5E1').lineWidth(0.6).dash(2, { space: 3 }).stroke().undash();
+
+    // QR code
+    const qrSize = labelH - 12;
+    const url = `${FRONTEND_URL}/pages/index.html#book/${book.id}`;
+    // eslint-disable-next-line no-await-in-loop
+    const qrBuffer = await QRCode.toBuffer(url, { type: 'png', width: 256, margin: 1 });
+    doc.image(qrBuffer, x + 6, y + 6, { width: qrSize, height: qrSize });
+
+    // Texte
+    const textX = x + qrSize + 12;
+    const textW = labelW - qrSize - 18;
+    doc.fontSize(8.5).font('Helvetica-Bold').fillColor('#111827')
+      .text(book.title, textX, y + 8, { width: textW, height: 28, ellipsis: true, lineGap: 1 });
+    doc.fontSize(7).font('Helvetica').fillColor('#4B5563')
+      .text(book.author || 'Auteur non renseigné', textX, doc.y + 1, { width: textW, height: 20, ellipsis: true });
+    if (book.location) {
+      doc.fontSize(7).font('Helvetica-Bold').fillColor('#4F46E5')
+        .text(`Cote : ${book.location}`, textX, doc.y + 1, { width: textW, height: 12, ellipsis: true });
+    }
+
+    slot++;
+  }
+
+  if (books.length === 0) {
+    doc.fontSize(12).fillColor('#6B7280')
+      .text('Aucun ouvrage à étiqueter.', MARGIN, gridTop, { align: 'center', width: usableW });
+  }
+
+  // Pied de page : numérotation
+  const range = doc.bufferedPageRange();
+  for (let i = 0; i < range.count; i++) {
+    doc.switchToPage(i);
+    doc.fontSize(7).fillColor('#9CA3AF').text(
+      `Page ${i + 1} sur ${range.count}   ${LIBRARY_NAME}`,
+      0, PAGE_H - 18, { align: 'center', width: PAGE_W, lineBreak: false }
+    );
+  }
+
+  doc.end();
+};
+
+module.exports = {
+  generateInventoryPDF,
+  generateLoanSheetPDF,
+  generateBookQRCode,
+  generateBookLabelsPDF,
+};

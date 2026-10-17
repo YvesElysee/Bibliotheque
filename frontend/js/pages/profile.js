@@ -6,7 +6,8 @@ if (!auth.isAuthenticated()) {
   window.location.href = `login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await auth.ready();
   setupNavbar();
   loadProfile();
   setupForm();
@@ -29,11 +30,8 @@ function setupNavbar() {
       if (!menuBtn.contains(e.target)) dropdown.classList.add('hidden');
     });
 
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      const rt = localStorage.getItem('refresh_token');
-      if (rt) await api.post('/auth/logout', { refreshToken: rt }).catch(() => {});
-      auth.clearSession();
-      window.location.href = 'login.html';
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      auth.logout();
     });
   }
 }
@@ -88,9 +86,8 @@ function setupForm() {
       const res = await api.put('/users/me', payload);
       const updatedUser = res.data;
 
-      // Mettre à jour localStorage
-      const current = auth.getUser() || {};
-      localStorage.setItem('user', JSON.stringify({ ...current, ...updatedUser }));
+      // Mettre à jour le profil en mémoire (aucune donnée sensible persistée)
+      auth.updateUser(updatedUser);
 
       toast.success('Profil mis à jour avec succès.');
       setupNavbar();

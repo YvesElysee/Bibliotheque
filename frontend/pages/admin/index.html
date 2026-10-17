@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Administration — Bibliothèque de la Congrégation</title>
+  <title>Administration — Bibliothèque Scolasticat Père Piariste</title>
   <link rel="stylesheet" href="../../css/output.css" />
   <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg" />
 </head>
-<body class="min-h-screen flex">
+<body class="min-h-screen">
 
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -120,15 +120,26 @@
   </aside>
 
   <!-- Contenu principal -->
-  <main class="flex-1 ml-64 min-h-screen">
+  <main class="admin-main ml-64 min-h-screen flex flex-col">
+    <!-- Voile (mobile) -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
     <!-- Topbar -->
-    <header class="sticky top-0 z-30 flex items-center justify-between px-8 py-4 border-b border-slate-800/60"
+    <header class="sticky top-0 z-30 flex items-center justify-between gap-3 px-4 sm:px-8 py-4 border-b border-slate-800/60"
             style="background: rgba(2,6,23,0.9); backdrop-filter: blur(16px);">
-      <div>
-        <h1 class="section-title text-xl" id="page-title">Tableau de bord</h1>
-        <p class="section-subtitle text-xs" id="page-subtitle">Vue d'ensemble de la bibliothèque</p>
+      <div class="flex items-center gap-3 min-w-0">
+        <!-- Bouton menu (mobile) -->
+        <button id="sidebar-toggle" class="lg:hidden btn-icon btn-ghost shrink-0 -ml-2" aria-label="Ouvrir le menu" aria-expanded="false">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <div class="min-w-0">
+          <h1 class="section-title text-lg sm:text-xl truncate" id="page-title">Tableau de bord</h1>
+          <p class="section-subtitle text-xs truncate" id="page-subtitle">Vue d'ensemble de la bibliothèque</p>
+        </div>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 shrink-0">
         <!-- Bouton d'action principal -->
         <button id="main-action-btn" class="btn-primary btn-sm hidden">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +151,7 @@
     </header>
 
     <!-- Zones de contenu -->
-    <div class="p-8">
+    <div class="p-4 sm:p-8 flex-1">
       <!-- Dashboard -->
       <section id="section-dashboard" class="animate-fade-in">
         <!-- Stats -->
@@ -216,6 +227,10 @@
           <button id="export-inventory-btn" class="btn-secondary btn-sm ml-auto">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             Export PDF
+          </button>
+          <button id="export-labels-btn" class="btn-secondary btn-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            Étiquettes QR
           </button>
         </div>
         <div class="card p-0 overflow-hidden">
@@ -365,10 +380,11 @@
         <div id="audit-pagination" class="pagination"></div>
       </section>
     </div>
+    <div id="site-footer" class="w-full"></div>
   </main>
 
   <script type="module" src="../../js/pages/admin/dashboard.js"></script>
-  <div id="site-footer" class="w-full"></div>
+  <script src="../../js/pages/admin/sidebar.js"></script>
   <script type="module" src="../../js/components/footer.js"></script>
 </body>
 </html>

@@ -7,7 +7,8 @@ if (!auth.isAuthenticated()) {
   window.location.href = `login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await auth.ready();
   setupNavbar();
   checkUrlPrefill();
   loadMyRequests();
@@ -31,11 +32,8 @@ function setupNavbar() {
       if (!menuBtn.contains(e.target)) dropdown.classList.add('hidden');
     });
 
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      const rt = localStorage.getItem('refresh_token');
-      if (rt) await api.post('/auth/logout', { refreshToken: rt }).catch(() => {});
-      auth.clearSession();
-      window.location.href = 'login.html';
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      auth.logout();
     });
   }
 }

@@ -1,6 +1,7 @@
 /**
  * HTTP Client — Wrapper fetch uniforme
- * Gère automatiquement : base URL, headers Authorization, refresh token, erreurs
+ * Authentification par cookies HttpOnly (envoyés automatiquement par le navigateur).
+ * Gère : base URL, credentials, refresh de session, erreurs.
  */
 
 // Le frontend est servi par le backend Express (même origine) → base relative.
@@ -21,12 +22,12 @@ export const resolveAssetUrl = (url) => {
   return `${API_ORIGIN}${path}`;
 };
 
-const _getHeaders = () => {
-  const token = localStorage.getItem('access_token');
-  return {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
+// Les cookies HttpOnly transportent l'authentification : aucun header Authorization.
+// On n'ajoute Content-Type que s'il y a un corps (évite des requêtes preflight inutiles).
+const _getHeaders = (hasBody) => {
+  const headers = {};
+  if (hasBody) headers['Content-Type'] = 'application/json';
+  return headers;
 };
 
 const _handleResponse = async (res) => {
@@ -52,18 +53,14 @@ const _request = async (method, path, body, attempt = 0) => {
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       method,
-      headers: _getHeaders(),
+      headers: _getHeaders(body !== undefined),
+      credentials: 'include',
       ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
     });
 
-    // Tentative de refresh si 401 et premier essai
+    // Tentative de refresh si 401 et premier essai.
+    // Le refresh_token est dans un cookie HttpOnly : on tente toujours le refresh.
     if (res.status === 401 && attempt === 0) {
-      const refreshToken = localStorage.getItem('refresh_token');
-      if (!refreshToken) {
-        window.dispatchEvent(new CustomEvent('auth:logout'));
-        throw new Error('Session expirée.');
-      }
-
       if (_isRefreshing) {
         return new Promise((resolve, reject) => {
           _failedQueue.push({ resolve, reject });
@@ -75,19 +72,14 @@ const _request = async (method, path, body, attempt = 0) => {
         const refreshRes = await fetch(`${API_BASE}/auth/refresh`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refreshToken }),
+          credentials: 'include',
         });
-        const refreshData = await refreshRes.json();
         if (!refreshRes.ok) throw new Error('Refresh failed');
 
-        localStorage.setItem('access_token', refreshData.data.accessToken);
         _processQueue(null);
         return _request(method, path, body, 1);
       } catch (refreshErr) {
         _processQueue(refreshErr);
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user');
         window.dispatchEvent(new CustomEvent('auth:logout'));
         throw new Error('Session expirée. Veuillez vous reconnecter.');
       } finally {
@@ -111,23 +103,19 @@ const api = {
   patch: (path, body) => _request('PATCH', path, body),
   delete: (path) => _request('DELETE', path),
 
-  // Upload fichier
+  // Upload fichier (cookie envoyé automatiquement)
   upload: async (path, formData) => {
-    const token = localStorage.getItem('access_token');
     const res = await fetch(`${API_BASE}${path}`, {
       method: 'POST',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      credentials: 'include',
       body: formData,
     });
     return _handleResponse(res);
   },
 
-  // Télécharger un fichier (PDF, QR)
+  // Télécharger un fichier (PDF, QR) avec authentification par cookie
   download: async (path, filename) => {
-    const token = localStorage.getItem('access_token');
-    const res = await fetch(`${API_BASE}${path}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
+    const res = await fetch(`${API_BASE}${path}`, { credentials: 'include' });
     if (!res.ok) throw new Error('Erreur lors du téléchargement.');
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);

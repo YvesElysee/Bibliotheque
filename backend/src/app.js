@@ -6,6 +6,7 @@ const path = require('path');
 
 const { errorHandler, notFoundHandler } = require('./middlewares/error.middleware');
 const { globalRateLimiter } = require('./middlewares/rateLimit.middleware');
+const parseCookies = require('./middlewares/cookie.middleware');
 const { logger } = require('./utils/logger');
 
 // Routes
@@ -32,7 +33,7 @@ app.set('trust proxy', 1);
 const isProd = process.env.NODE_ENV === 'production';
 const cspDirectives = {
   ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-  'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://*.openlibrary.org', 'https://books.google.com', 'https://*.google.com', 'https://*.googleusercontent.com', 'https://*.archive.org'],
+  'img-src': ["'self'", 'data:', 'https://covers.openlibrary.org', 'https://*.openlibrary.org', 'https://books.google.com', 'https://*.google.com', 'https://*.googleusercontent.com', 'https://*.archive.org', 'https://res.cloudinary.com', 'https://*.cloudinary.com'],
   'connect-src': ["'self'"],
 };
 // En développement (accès http local/LAN), on n'impose pas l'HTTPS forcé,
@@ -52,8 +53,8 @@ app.use((_req, res, next) => {
 
 // Application interne : le front est servi par ce même serveur (même origine).
 // On reflète l'origine appelante pour permettre aussi l'accès via IP locale en LAN
-// et le développement via Live Server (:5500). L'authentification utilise un
-// jeton Bearer (localStorage), non des cookies, ce qui limite le risque CSRF.
+// et le développement via Live Server (:5500). L'authentification utilise des
+// cookies HttpOnly (SameSite=Lax), ce qui protège des attaques CSRF.
 app.use(cors({
   origin: true,
   credentials: true,
@@ -64,6 +65,8 @@ app.use(cors({
 // ─── Parsing ──────────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Lecture des cookies (jetons d'authentification HttpOnly)
+app.use(parseCookies);
 
 // ─── Fichiers statiques (couvertures de livres) ──────────────────────────────
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

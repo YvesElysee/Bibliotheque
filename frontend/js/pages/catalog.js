@@ -31,6 +31,7 @@ const categoriesFilter = document.getElementById('categories-filter');
 
 // ─── Initialisation ────────────────────────────────────────────────────────────
 (async function init() {
+  await auth.ready();
   setupNavbar();
   await Promise.all([loadCategories(), loadStats(), fetchBooks()]);
   setupEventListeners();
@@ -61,11 +62,8 @@ function setupNavbar() {
       if (!menuBtn.contains(e.target)) dropdown.classList.add('hidden');
     });
 
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      const rt = localStorage.getItem('refresh_token');
-      if (rt) await api.post('/auth/logout', { refreshToken: rt }).catch(() => {});
-      auth.clearSession();
-      window.location.href = '/pages/login.html';
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      auth.logout();
     });
   }
 }
@@ -308,7 +306,7 @@ async function openBookDetail(book) {
 
           <!-- Actions -->
           ${user ? `
-            <div class="flex flex-wrap gap-2 mb-4">
+            <div class="flex flex-wrap gap-2 mb-4" id="detail-actions">
               ${isAvailable
                 ? `<button class="btn-success btn-sm" id="detail-borrow-btn">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -336,13 +334,14 @@ async function openBookDetail(book) {
     `;
 
     // Actions emprunt / réservation
-    document.getElementById('detail-borrow-btn')?.addEventListener('click', async () => {
+    document.getElementById('detail-borrow-btn')?.addEventListener('click', () => {
       if (!auth.isAuthenticated()) { window.location.href = '/pages/login.html'; return; }
       if (!auth.isStaff()) {
-        toast.info('Contactez le bibliothécaire pour enregistrer votre emprunt.'); return;
+        toast.info('Contactez le bibliothécaire pour enregistrer votre emprunt.');
+        return;
       }
-      // Formulaire emprunt (staff)
-      toast.info('Fonctionnalité disponible depuis l\'interface admin.');
+      // Personnel : enregistrer l'emprunt pour un membre (utile après scan du QR)
+      openStaffBorrowPanel(b);
     });
 
     document.getElementById('detail-reserve-btn')?.addEventListener('click', async () => {
@@ -414,4 +413,99 @@ function setupEventListeners() {
     });
     fetchBooks();
   });
+}
+
+// ─── Prêt par scan (personnel) ──────────────────────────────────────────────────
+// Affiche un champ pour identifier le membre puis enregistre l'emprunt.
+function openStaffBorrowPanel(book) {
+  const actions = document.getElementById('detail-actions');
+  if (!actions) return;
+  if (document.getElementById('staff-borrow-panel')) return; // déjà ouvert
+
+  const panel = document.createElement('div');
+  panel.id = 'staff-borrow-panel';
+  panel.className = 'w-full mt-2 p-3 rounded-xl bg-slate-900 border border-slate-800';
+  panel.innerHTML = `
+    <label class="block text-xs font-medium text-slate-300 mb-1">Emprunter cet ouvrage pour le membre :</label>
+    <div class="relative">
+      <input type="email" id="staff-borrow-email" class="form-input text-sm py-2 rounded-xl w-full"
+             placeholder="Email du membre…" autocomplete="off" />
+      <div id="staff-borrow-results" class="hidden absolute left-0 right-0 top-full mt-1 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl max-h-40 overflow-y-auto z-50 divide-y divide-slate-800"></div>
+    </div>
+    <div class="flex gap-2 mt-2">
+      <button class="btn-primary btn-sm" id="staff-borrow-confirm" disabled>Enregistrer l'emprunt</button>
+      <button class="btn-secondary btn-sm" id="staff-borrow-cancel">Annuler</button>
+    </div>
+  `;
+  actions.after(panel);
+
+  const emailInput = document.getElementById('staff-borrow-email');
+  const results = document.getElementById('staff-borrow-results');
+  const confirmBtn = document.getElementById('staff-borrow-confirm');
+  let selectedUserId = null;
+  let timer;
+
+  const renderResults = (users) => {
+    if (!users.length) {
+      results.innerHTML = `<div class="px-3 py-2 text-xs text-slate-500">Aucun membre trouvé.</div>`;
+      results.classList.remove('hidden');
+      return;
+    }
+    results.innerHTML = users.map((u) => `
+      <button type="button" class="w-full text-left px-3 py-2 hover:bg-slate-800 transition-colors"
+              data-id="${u.id}" data-name="${escapeAttr(u.firstName + ' ' + u.lastName)}" data-email="${escapeAttr(u.email)}">
+        <span class="block text-sm text-white">${escapeHtml(u.firstName + ' ' + u.lastName)}</span>
+        <span class="block text-xs text-slate-400">${escapeHtml(u.email)}</span>
+      </button>
+    `).join('');
+    results.classList.remove('hidden');
+    results.querySelectorAll('button[data-id]').forEach((btn) => {
+      btn.onclick = () => {
+        selectedUserId = btn.dataset.id;
+        emailInput.value = `${btn.dataset.name} (${btn.dataset.email})`;
+        confirmBtn.disabled = false;
+        results.classList.add('hidden');
+      };
+    });
+  };
+
+  emailInput.addEventListener('input', () => {
+    selectedUserId = null;
+    confirmBtn.disabled = true;
+    const q = emailInput.value.trim();
+    if (q.length < 2) { results.classList.add('hidden'); return; }
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      try {
+        const res = await api.get(`/users?search=${encodeURIComponent(q)}&limit=6`);
+        renderResults(res.data || []);
+      } catch { results.classList.add('hidden'); }
+    }, 250);
+  });
+
+  confirmBtn.onclick = async () => {
+    if (!selectedUserId) return;
+    confirmBtn.disabled = true;
+    try {
+      await api.post('/loans', { userId: selectedUserId, bookId: book.id });
+      toast.success('Emprunt enregistré avec succès.');
+      panel.remove();
+      fetchBooks();
+    } catch (err) {
+      toast.error(err.message || 'Impossible d\'enregistrer l\'emprunt.');
+      confirmBtn.disabled = false;
+    }
+  };
+
+  document.getElementById('staff-borrow-cancel').onclick = () => panel.remove();
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function escapeAttr(str) {
+  return escapeHtml(str);
 }

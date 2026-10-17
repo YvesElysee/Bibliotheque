@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mes Emprunts — Bibliothèque de la Congrégation</title>
+  <title>Mes Emprunts — Bibliothèque Scolasticat Père Piariste</title>
   <meta name="description" content="Suivi de vos emprunts en cours, dates de restitution et historique des lectures." />
   <link rel="stylesheet" href="../css/output.css" />
   <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
 </head>
-<body class="min-h-screen pb-16">
+<body class="min-h-screen flex flex-col pb-16">
 
   <!-- Navbar -->
   <nav class="navbar" id="main-navbar">
@@ -21,7 +21,7 @@
       </div>
       <div>
         <p class="font-serif font-semibold text-white text-sm leading-tight">Bibliothèque</p>
-        <p class="text-xs text-slate-500">de la Congrégation</p>
+        <p class="text-xs text-slate-500">Scolasticat Père Piariste</p>
       </div>
     </a>
 
@@ -58,7 +58,7 @@
   </nav>
 
   <!-- Contenu Principal -->
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-24">
+  <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 pt-24">
     <!-- En-tête -->
     <div class="mb-8">
       <h1 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">Mes Emprunts & Lectures</h1>
@@ -77,6 +77,19 @@
       </div>
       <div id="active-loans-list" class="space-y-4">
         <div class="card py-8 text-center text-slate-500">Chargement de vos prêts…</div>
+      </div>
+    </div>
+
+    <!-- Liste d'attente (réservations) -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-serif font-semibold text-white flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+          Liste d'attente (<span id="reservations-count">0</span>)
+        </h2>
+      </div>
+      <div id="reservations-list" class="space-y-3">
+        <div class="card py-6 text-center text-slate-500">Chargement de vos réservations…</div>
       </div>
     </div>
 

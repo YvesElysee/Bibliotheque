@@ -17,4 +17,14 @@ const bookQRCode = async (req, res, next) => {
   catch (err) { next(err); }
 };
 
-module.exports = { inventory, loanSheet, bookQRCode };
+const bookLabels = async (req, res, next) => {
+  try {
+    // ?ids=a,b,c (optionnel) pour n'étiqueter que certains ouvrages
+    const ids = typeof req.query.ids === 'string' && req.query.ids.trim()
+      ? req.query.ids.split(',').map((s) => s.trim()).filter(Boolean)
+      : undefined;
+    await exportsService.generateBookLabelsPDF(res, ids);
+  } catch (err) { next(err); }
+};
+
+module.exports = { inventory, loanSheet, bookQRCode, bookLabels };
