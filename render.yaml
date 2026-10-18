@@ -15,7 +15,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: LIBRARY_NAME
-        value: Bibliothèque de la Congrégation
+        value: Bibliothèque Scolasticat Père Piariste
       - key: DEFAULT_LOAN_DAYS
         value: "21"
       - key: MAX_ACTIVE_LOANS

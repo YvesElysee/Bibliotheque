@@ -3,7 +3,23 @@ const { logger } = require('./src/utils/logger');
 const { checkEnv } = require('./src/config/envCheck');
 
 // Journal d'aide au déploiement : on affiche ce qui manque avant tout crash.
-checkEnv(['DATABASE_URL', 'JWT_SECRET']);
+const missing = checkEnv(['DATABASE_URL', 'JWT_SECRET']);
+if (missing.length > 0) {
+  logger.error('❌ Démarrage interrompu : variables manquantes → ' + missing.join(', '));
+  logger.error('   → Ajoute-les dans Render : ton service → onglet « Environment » → « Add Environment Variable »,');
+  logger.error('     puis « Save Changes » (Render redéploie automatiquement).');
+  logger.error('   ⚠️  Le fichier backend/.env local n\'est PAS envoyé sur GitHub, donc Render ne le voit pas.');
+  process.exit(1);
+}
+
+// Piège fréquent : une URL « localhost » ne fonctionne pas sur Render
+// (le serveur est une machine distante). Il faut une base joignable sur Internet.
+if (process.env.NODE_ENV === 'production' && /localhost|127\.0\.0\.1/i.test(process.env.DATABASE_URL || '')) {
+  logger.error('❌ DATABASE_URL pointe vers « localhost » : cette base est introuvable depuis Render.');
+  logger.error('   → Utilise l\'URL PUBLIQUE de ta base Neon, de la forme :');
+  logger.error('     postgresql://utilisateur:motdepasse@ep-xxxx.region.aws.neon.tech/neondb?sslmode=require');
+  process.exit(1);
+}
 
 let app;
 try {
