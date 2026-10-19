@@ -500,7 +500,7 @@ function openAddBookModal() {
         <p class="text-[11px] text-slate-400 mt-1">Saisissez l'ISBN pour remplir instantanément le titre, l'auteur, l'éditeur, l'année, le résumé et la couverture.</p>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div class="sm:col-span-2">
           <label class="block text-xs font-medium text-slate-300 mb-1">Titre de l'ouvrage *</label>
           <input type="text" name="title" required class="form-input text-sm py-2 rounded-xl w-full" placeholder="Ex: Somme Théologique" />
@@ -851,7 +851,7 @@ async function openEditBookModal(bookId) {
 
     const content = `
       <form id="edit-book-form" class="space-y-4">
-        <div class="grid sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="sm:col-span-2">
             <label class="block text-xs font-medium text-slate-300 mb-1">Titre de l'ouvrage *</label>
             <input type="text" name="title" required value="${escapeHtml(book.title)}" class="form-input text-sm py-2 rounded-xl w-full" />

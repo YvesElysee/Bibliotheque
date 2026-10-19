@@ -36,7 +36,7 @@
 
   /* Cards */
   .card {
-    @apply rounded-2xl border border-slate-800/60 bg-slate-900/60 p-6;
+    @apply min-w-0 rounded-2xl border border-slate-800/60 bg-slate-900/60 p-6;
     backdrop-filter: blur(12px);
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
