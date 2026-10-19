@@ -5,6 +5,10 @@ const SMTP_HOST = process.env.SMTP_HOST;
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
 const SMTP_USER = process.env.SMTP_USER;
 const SMTP_PASS = process.env.SMTP_PASS;
+// Adresse d'expédition visible. Indispensable avec un relais (Brevo) : le
+// « SMTP_USER » est alors un identifiant technique (xxx@smtp-brevo.com) et non
+// une vraie adresse. EMAIL_FROM doit être une adresse d'expéditeur VALIDÉE.
+const EMAIL_FROM = process.env.EMAIL_FROM || SMTP_USER;
 const SMTP_CONFIGURED = Boolean(SMTP_HOST && SMTP_USER && SMTP_PASS);
 
 const transporter = SMTP_CONFIGURED
@@ -54,7 +58,7 @@ const sendEmail = async ({ to, subject, html, text }) => {
     );
   }
   const mailOptions = {
-    from: `"${process.env.EMAIL_FROM_NAME || 'Bibliothèque'}" <${SMTP_USER}>`,
+    from: `"${process.env.EMAIL_FROM_NAME || 'Bibliothèque'}" <${EMAIL_FROM}>`,
     to,
     subject,
     html,
