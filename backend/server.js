@@ -32,6 +32,7 @@ try {
 
 const { startScheduler } = require('./src/modules/notifications/scheduler');
 const { ensureSeed } = require('./src/utils/ensureSeed');
+const { ensureBooks } = require('./src/utils/ensureBooks');
 
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST; // vide = toutes les interfaces (accessible sur le réseau local)
@@ -39,6 +40,7 @@ const HOST = process.env.HOST; // vide = toutes les interfaces (accessible sur l
 const server = app.listen(PORT, HOST, async () => {
   logger.info(`✅ Serveur démarré sur http://${HOST || 'localhost'}:${PORT} [${process.env.NODE_ENV || 'development'}]`);
   await ensureSeed(); // une seule fois, seulement si la base est vide
+  await ensureBooks(); // importe les 136 livres si la base n'en contient pas encore
   startScheduler();
 });
 

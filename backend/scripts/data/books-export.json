@@ -1,0 +1,3314 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-19T10:44:30.420Z",
+  "source": "scripts/export-books.js",
+  "categories": [
+    {
+      "nameEn": "Theology",
+      "nameFr": "Théologie",
+      "slug": "theology",
+      "description": null,
+      "color": "#7C3AED",
+      "icon": "church"
+    },
+    {
+      "nameEn": "Philosophy",
+      "nameFr": "Philosophie",
+      "slug": "philosophy",
+      "description": null,
+      "color": "#5feb24",
+      "icon": "lightbulb"
+    },
+    {
+      "nameEn": "Literature",
+      "nameFr": "Littérature",
+      "slug": "literature",
+      "description": null,
+      "color": "#db2777",
+      "icon": "book-open"
+    },
+    {
+      "nameEn": "Dictionaries",
+      "nameFr": "Dictionnaires",
+      "slug": "dictionaries",
+      "description": null,
+      "color": "#0891b2",
+      "icon": "book"
+    }
+  ],
+  "books": [
+    {
+      "title": "ACTES DE LA CENCO ET DOCUMENTS",
+      "author": "CENCO",
+      "publisher": null,
+      "publishingHouse": "Secrétariat de la CENCO",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "ACTES DU COLLOQUE « Ensemble pour la sauvegarde de notre maison commune »",
+      "author": "MISSIONNAIRES COMBONIENS DU CŒUR DE JESUS",
+      "publisher": null,
+      "publishingHouse": "Afriquespoir",
+      "isbn": null,
+      "year": 2019,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "À l’école de la Miséricorde de Sainte Faustine",
+      "author": "Sœurs de Notre-Dame de la Miséricorde",
+      "publisher": null,
+      "publishingHouse": "MI. Cracovie",
+      "isbn": null,
+      "year": 2017,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Apprendre à vivre 2",
+      "author": "Luc FERRY",
+      "publisher": null,
+      "publishingHouse": "Plon",
+      "isbn": null,
+      "year": 2009,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Bassang la terre de Cana’a",
+      "author": "Brigitte GNAMY",
+      "publisher": null,
+      "publishingHouse": "L’Harmattan",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "BHS",
+      "author": "J",
+      "publisher": null,
+      "publishingHouse": "A. Schenker",
+      "isbn": null,
+      "year": null,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Boy Diola",
+      "author": "Yancouba Diémé",
+      "publisher": null,
+      "publishingHouse": "Flammarion",
+      "isbn": null,
+      "year": 2019,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Cana’a le fils du passé",
+      "author": "Brigitte GNAMY",
+      "publisher": null,
+      "publishingHouse": "L’Harmattan-Sénégal",
+      "isbn": null,
+      "year": 2020,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Code de droit canonique",
+      "author": "Université pontificale de la Sainte Croix",
+      "publisher": null,
+      "publishingHouse": "Wilson et Lafleur",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Comment élaborer un travail de fin de cycle ?",
+      "author": "Marcous BINDUNGWA Ibanda",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2010,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Confucius et le confucianisme",
+      "author": "Alexis Lavis",
+      "publisher": null,
+      "publishingHouse": "Saint-Amand-Montrond",
+      "isbn": null,
+      "year": 2008,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Critique de la raison pure",
+      "author": "Emmanuel KANT",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 1944,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163523350-Critiquedelaraisonpure.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "De BergeycK-Saint-Ignace à Notre Dame Des Sept Douleurs",
+      "author": "Hippolyte NGIMBI NSEKA",
+      "publisher": null,
+      "publishingHouse": "Centre Pastoral de Kisantu",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "De qui Dieu est-il le nom ?",
+      "author": "Gaston Ogui Cossi, Christiane Baka, Pierre Diarra et Paulin poucouta",
+      "publisher": null,
+      "publishingHouse": "KARTHALA",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Des mots pour guérir les maux",
+      "author": "Roger wawa",
+      "publisher": null,
+      "publishingHouse": "2eme Edition Médiaspaul",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Dictionary of phrasal verbs",
+      "author": "Collins Cobuild",
+      "publisher": null,
+      "publishingHouse": "HarperCollins publishers",
+      "isbn": null,
+      "year": 1989,
+      "edition": null,
+      "language": "EN",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163902729-Dictionaryofphrasalverbs.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Dictionnaire critique de théologie",
+      "author": "Jean-Yves LACOSTE",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 1998,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792160033785-Dictionnairecritiquedethologie.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Dictionnaire Français-Lingala",
+      "author": "Jika",
+      "publisher": null,
+      "publishingHouse": "Apelmedia/ Kinshasa",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163925891-DictionnaireFranaisLingala.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Dieu Trinité",
+      "author": "Karl Rahner",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 1960,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Difficile liberté",
+      "author": "Emmanuel Levinas",
+      "publisher": null,
+      "publishingHouse": "Albin Michel",
+      "isbn": null,
+      "year": 1963,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Dilexit nos",
+      "author": "PAPE François",
+      "publisher": null,
+      "publishingHouse": "ARTEGE",
+      "isbn": null,
+      "year": 2024,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Discours sur l’origine et les fondements de l’inégalité parmi les hommes",
+      "author": "Jean-Jacques Rousseau",
+      "publisher": null,
+      "publishingHouse": "J’ai lu",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163637535-Discourssurlorigineetlesfondementsdelingalitparmileshommes.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Dogmatique après le concile",
+      "author": "Karl Ranher",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Dogmatique après le concile",
+      "author": "Karl Rahner",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 2005,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Dogme et inculturation en Afrique",
+      "author": "Léonard Santedi Kinkupu",
+      "publisher": null,
+      "publishingHouse": "KARTHALA",
+      "isbn": null,
+      "year": 2003,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Durée et simultanéité",
+      "author": "Bergson",
+      "publisher": null,
+      "publishingHouse": "GF Flammarion",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163756703-Dureetsimultanit.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "EDUQUER ENSEMBLE DANS L’ECOLE CATHOLIQUE",
+      "author": "CONGREGATION POUR L’EDUCAION CATHOLIQUE",
+      "publisher": null,
+      "publishingHouse": "LIBERIA EDITRICE VATICANA",
+      "isbn": null,
+      "year": null,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Egalité sociale et liberté politique",
+      "author": "Alexis de TOQUEVILLE",
+      "publisher": null,
+      "publishingHouse": "Aubier-Montaigne",
+      "isbn": null,
+      "year": 1977,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163577958-Egalitsocialeetlibertpolitique.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Éléments de méthodologie philosophique",
+      "author": "Michel KOUAM et Ernest-Marie MBONDA",
+      "publisher": null,
+      "publishingHouse": "UCAC",
+      "isbn": null,
+      "year": 2008,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Éléments de neurophysiologie",
+      "author": "Tharcisse Kayembe Kalula",
+      "publisher": null,
+      "publishingHouse": "Digital-printer, Kinshasa",
+      "isbn": null,
+      "year": 2012,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "El Proyecto Personal como voluntad de autenticidad",
+      "author": "Juan Mari Llardduia",
+      "publisher": null,
+      "publishingHouse": "ESET Victoria/Gasteiz",
+      "isbn": null,
+      "year": 1994,
+      "edition": null,
+      "language": "ES",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Émile ou de l’éducation",
+      "author": "Jean-Jacques Rousseau",
+      "publisher": null,
+      "publishingHouse": "Gallimard",
+      "isbn": null,
+      "year": 1969,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163628801-mileoudelducation.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "EPHEMERIDE",
+      "author": "Cardinal ALBERT MALULA",
+      "publisher": null,
+      "publishingHouse": "KAS",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Essential Indonesian",
+      "author": "Katherine Davidsen",
+      "publisher": null,
+      "publishingHouse": "Periplus ( HK )",
+      "isbn": null,
+      "year": 2013,
+      "edition": null,
+      "language": "EN",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163912941-EssentialIndonesian.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Etat, travail et société au Cameroun",
+      "author": "Estelle Kouokam Magne",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2023,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Ethique comme esthétique",
+      "author": "Mgr Sébastien-Joseph MUYENGO MULOMBE",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2026,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Être homme et devenir homme de Dieu",
+      "author": "Karl Rahner",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 2012,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Eucharistie et famille",
+      "author": "CENCO",
+      "publisher": null,
+      "publishingHouse": "Secrétariat Cenco",
+      "isbn": null,
+      "year": 2004,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Fleur de Lys nouvelles",
+      "author": "Brigitte GNAMY",
+      "publisher": null,
+      "publishingHouse": "L’Harmattan",
+      "isbn": null,
+      "year": 2023,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792175403837-beb16c3f.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Foi et politique dans la Bible",
+      "author": "Institut St François de Sales I",
+      "publisher": null,
+      "publishingHouse": "Don Bosco",
+      "isbn": null,
+      "year": 2024,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "French in three months",
+      "author": "Hugo",
+      "publisher": null,
+      "publishingHouse": "Dorling Kindersley",
+      "isbn": null,
+      "year": 1997,
+      "edition": null,
+      "language": "EN",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163943433-Frenchinthreemonths.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Grammaire italienne facile",
+      "author": "Antonio Vallardi",
+      "publisher": null,
+      "publishingHouse": "S.U.R.L",
+      "isbn": null,
+      "year": 2001,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163894764-Grammaireitaliennefacile.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Guenn Goor",
+      "author": "Brigitte GNAMY",
+      "publisher": null,
+      "publishingHouse": "L’Harmattan",
+      "isbn": null,
+      "year": 2022,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792175274207-aafb640d.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Hier et aujourd’hui",
+      "author": "Ngimbi NSEKA",
+      "publisher": null,
+      "publishingHouse": "Mayidi/ Inkisi",
+      "isbn": null,
+      "year": 1983,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163843377-Hieretaujourdhui.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Histoire de l’action sociale à Pantin du XVIIe au XXe siècle",
+      "author": "Pierre Trudeau",
+      "publisher": null,
+      "publishingHouse": "Karthala",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Hume et la question du sujet de la connaissance",
+      "author": "Lucien AYISSI",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Identité et transcendance",
+      "author": "Marcien TOWA",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2011,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Introduction à la sociologie africaine",
+      "author": "Akenawi Laken Claude",
+      "publisher": null,
+      "publishingHouse": "Centre de Rcherches pédagogique- kinshasa",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Islam et terrorisme",
+      "author": "Mark A. Gabriel, Ph.D",
+      "publisher": null,
+      "publishingHouse": "Ournia",
+      "isbn": null,
+      "year": 2006,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163773980-Islametterrorisme.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "JE SUIS JOSEPH, VOTRE FRERE",
+      "author": "Mgr Sébastien-Joseph MUYENGO MULOMBE",
+      "publisher": null,
+      "publishingHouse": "Verbum Bible",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "La bible et le fusil",
+      "author": "MAURICE BANDAMAN",
+      "publisher": null,
+      "publishingHouse": "CEDA",
+      "isbn": null,
+      "year": 1996,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "La démocratie : Histoire des théories, pratiques",
+      "author": "Jean-Vincent Holeindre et Benoit Richard",
+      "publisher": null,
+      "publishingHouse": "Sciences humaines",
+      "isbn": null,
+      "year": 2010,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "L’affaire de la philosophie africaine",
+      "author": "Fabien Eboussi BOULAGA",
+      "publisher": null,
+      "publishingHouse": "Terroirs et Karthala",
+      "isbn": null,
+      "year": 2011,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "L’Afrique subsaharienne à l’aube du IIIe millénaire",
+      "author": "Gustave René Biem",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La justice comme équité",
+      "author": "John Rawls",
+      "publisher": null,
+      "publishingHouse": "La découverte",
+      "isbn": null,
+      "year": 2003,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163672551-Lajusticecommequit.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La leçon de philosophie de socrate à Épictète",
+      "author": "Jean LOMBARD",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2017,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La liturgie",
+      "author": "Encyclopédie de Foi",
+      "publisher": null,
+      "publishingHouse": "Clovis",
+      "isbn": null,
+      "year": 1971,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "La logique de la découverte scientifique",
+      "author": "Karl R. POPPER",
+      "publisher": null,
+      "publishingHouse": "Payot § Rivages",
+      "isbn": null,
+      "year": 2017,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La mystique",
+      "author": "Anselme GRÜN",
+      "publisher": null,
+      "publishingHouse": "Salvator",
+      "isbn": null,
+      "year": 2010,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "La pensée et le Mouvant",
+      "author": "Bergson",
+      "publisher": null,
+      "publishingHouse": "Flammarion",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163614315-LapenseetleMouvant.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La personne et sa conscience",
+      "author": "PRH-International",
+      "publisher": null,
+      "publishingHouse": "Janvier",
+      "isbn": null,
+      "year": 1997,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La philosophie classique africaine",
+      "author": "Nsame MBONGO",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2013,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La politique",
+      "author": "Aristote",
+      "publisher": null,
+      "publishingHouse": "Vrin",
+      "isbn": null,
+      "year": 2019,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La rationalité d’un discours africain sur les phénomènes paranormaux",
+      "author": "Meinrad HEBGA",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 1998,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163475196-Larationalitdundiscoursafricainsurlesphnomnesparanormaux.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Larousse dictionnaire de Français",
+      "author": "Auteur inconnu",
+      "publisher": null,
+      "publishingHouse": "Larousse, maury à",
+      "isbn": null,
+      "year": 2008,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163886475-LaroussedictionnairedeFranais.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "Larousse French Dictionary",
+      "author": "Auteur inconnu",
+      "publisher": null,
+      "publishingHouse": "Larousse,Paris Cedex 06, France",
+      "isbn": null,
+      "year": 2007,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163876130-LarousseFrenchDictionary.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature",
+        "dictionaries"
+      ]
+    },
+    {
+      "title": "La structure des révolutions scientifiques",
+      "author": "Jean-Pierre LUMINET",
+      "publisher": null,
+      "publishingHouse": "Champs sciences",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "La theologie et l’avenir des sociétés",
+      "author": "Léonard Nsatedi Kinkupu",
+      "publisher": null,
+      "publishingHouse": "KARTHALA",
+      "isbn": null,
+      "year": 2010,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Le Citoyen",
+      "author": "Hobbes",
+      "publisher": null,
+      "publishingHouse": "GF Flammarion",
+      "isbn": null,
+      "year": 1982,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163713925-LeCitoyen.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Le concile Vatican II et l’Eglise Africaine",
+      "author": "Mgr Tharcisse T. TSHIBANGU",
+      "publisher": null,
+      "publishingHouse": "Karthala",
+      "isbn": null,
+      "year": 2007,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Le malaise dans la culture",
+      "author": "Sigmund Freud",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 1995,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163511341-Lemalaisedanslaculture.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "L’énergie spirituelle",
+      "author": "Henri Bergson",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 2009,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163740526-Lnergiespirituelle.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "LEON XIV « De révélation en révélation »",
+      "author": "JEAN-MARIE GUENOIS",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 2025,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Léopold Sédar Senghor",
+      "author": "Placide Mandona",
+      "publisher": null,
+      "publishingHouse": "L’Harmattan",
+      "isbn": null,
+      "year": 2018,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163785808-LopoldSdarSenghor.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "LE PARDON. Une folie libératrice.",
+      "author": "Wilfrid Kolorunko OKAMBAWA, SJ",
+      "publisher": null,
+      "publishingHouse": "Troisieme édition, revue et corigée : LUX AFRICAE",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Le Roi Baudouin",
+      "author": "Cardinal Suenens",
+      "publisher": null,
+      "publishingHouse": "F.I.A.T.",
+      "isbn": null,
+      "year": 1995,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163795848-LeRoiBaudouin.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Les défis de l’évangélisation dans l’Afrique contemporaine",
+      "author": "Léonard Santedi KINKUPU",
+      "publisher": null,
+      "publishingHouse": "Karthala",
+      "isbn": null,
+      "year": 2024,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Les deux sources de la morale et de la religion",
+      "author": "Henri Bergson",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 2022,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163500303-Lesdeuxsourcesdelamoraleetdelareligion.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Le sérieux de l’intention",
+      "author": "Vladimir Jankélévitch",
+      "publisher": null,
+      "publishingHouse": "Flammarion",
+      "isbn": null,
+      "year": 1983,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Les hommes contre l’humain",
+      "author": "Gabriel Marcel",
+      "publisher": null,
+      "publishingHouse": "Colombier",
+      "isbn": null,
+      "year": 1951,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "L’espace public",
+      "author": "Jürgen Habermas",
+      "publisher": null,
+      "publishingHouse": "Bd Saint-Germain",
+      "isbn": null,
+      "year": 1992,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163591250-Lespacepublic.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "LES PERES DE DE L’EGLISE ET LES DEFITS ECCLESIAUX ACTUELS",
+      "author": "Cyril ATITUNG Kalom",
+      "publisher": null,
+      "publishingHouse": "Baobab",
+      "isbn": null,
+      "year": 2022,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Le Tabernacle",
+      "author": "Sœurs Adoratrices du SS. Sacrement",
+      "publisher": null,
+      "publishingHouse": "Cremone",
+      "isbn": null,
+      "year": 2002,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "L’être et le néant",
+      "author": "Jean-Paul SARTRE",
+      "publisher": null,
+      "publishingHouse": "Gallimard",
+      "isbn": null,
+      "year": 1943,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163661696-Ltreetlenant.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Lettre Apostolique à tous les consacrés à l’occasion de l’année de la vie consacrée",
+      "author": "PEPE François",
+      "publisher": null,
+      "publishingHouse": "Pauline",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Lettres sur la tolérance et aux autres textes",
+      "author": "Lock",
+      "publisher": null,
+      "publishingHouse": "GF Flammarion",
+      "isbn": null,
+      "year": 2007,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Léviathan",
+      "author": "Thomas Hobbes",
+      "publisher": null,
+      "publishingHouse": "Gallimard",
+      "isbn": null,
+      "year": 2000,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163721786-Lviathan.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "LIDERAZGO Y PROXIMIDAD",
+      "author": "Aquilino Bocos Morino",
+      "publisher": null,
+      "publishingHouse": "Claretianas",
+      "isbn": null,
+      "year": 2016,
+      "edition": null,
+      "language": "ES",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "L’Inoubliable Ella",
+      "author": "Brigitte GNAMY",
+      "publisher": null,
+      "publishingHouse": "L’Harmattan",
+      "isbn": null,
+      "year": 2022,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792175353999-c4b8fd2f.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Lire la Bible dans une société en crise",
+      "author": "André KABASELE MUKENGE",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Logique et argumentation",
+      "author": "Doninique MWEZE CHIRHULWIRE NKINGI",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2006,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163680524-Logiqueetargumentation.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "L’Ombre du pape Léon XIV en RD. Congo",
+      "author": "Macaire EYUPAR et C.T Michel BUASSA",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2026,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Lumen Fidei",
+      "author": "Pape François",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2013,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Magnifique humanité",
+      "author": "Léon XIV",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 2022,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Mankind",
+      "author": "Suzane Mendy-Sambou",
+      "publisher": null,
+      "publishingHouse": null,
+      "isbn": null,
+      "year": 2025,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163807178-Mankind.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Matière et mémoire",
+      "author": "Bergson",
+      "publisher": null,
+      "publishingHouse": "Flammarion",
+      "isbn": null,
+      "year": 2012,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Méditations cartésiennes",
+      "author": "Husserl",
+      "publisher": null,
+      "publishingHouse": "Vrin",
+      "isbn": null,
+      "year": 1947,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163559026-Mditationscartsiennes.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Mémoires",
+      "author": "Abdou Diouf",
+      "publisher": null,
+      "publishingHouse": "Éd. Du seuil 25, bd Romain-Rolland, Paris XIVe",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163829666-Mmoires.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Merleau-PONTY face aux défis du monde contemporain",
+      "author": "Félicien MPUKU Laku",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2026,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Méthodes de recherche en sciences sociales",
+      "author": "Musa ALOKPO Dieudonné",
+      "publisher": null,
+      "publishingHouse": null,
+      "isbn": null,
+      "year": 2017,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163821224-Mthodesderechercheensciencessociales.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Novum testamentum Graece",
+      "author": "Nestle- Aland",
+      "publisher": null,
+      "publishingHouse": "DBG",
+      "isbn": null,
+      "year": 2005,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Paul de Tarse : L’enfant terrible du christianisme",
+      "author": "Daniel Marguerat",
+      "publisher": null,
+      "publishingHouse": "Seuil",
+      "isbn": null,
+      "year": 2023,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Penser l’humain",
+      "author": "Abdoulaye Elimane KANE",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Petit traité des grandes vertus",
+      "author": "André COMTE-SPONVILLE",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 1995,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163649213-Petittraitdesgrandesvertus.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Philosophie de l’autre ou philosophie du moi ?",
+      "author": "Alain TORNAY",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2006,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Philosophie de la volonté 2",
+      "author": "Paul RICŒUR",
+      "publisher": null,
+      "publishingHouse": "Points",
+      "isbn": null,
+      "year": 2009,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Philosophie et cultures africaines à l’heure de l’interculturalité",
+      "author": "Michel KOUAM et Christian MOFOR",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2011,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163877629-24b49539.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Platon autrement dit",
+      "author": "Patrick FONTAINE",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2007,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "PONTIFICIUM OPUS A SANCTA INFANTIA",
+      "author": "TOMUS CXLIII",
+      "publisher": null,
+      "publishingHouse": "ANNALES",
+      "isbn": null,
+      "year": 2006,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Programme national du cours de religion en 1ere année secondaire dans les écoles conventionnées Catholiques en RD Congo",
+      "author": "CENCO",
+      "publisher": null,
+      "publishingHouse": "CEEC",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Promenades primesautières",
+      "author": "Yves Séméria",
+      "publisher": null,
+      "publishingHouse": "Nice",
+      "isbn": null,
+      "year": 2001,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "PROPOS INTEMPESTIFS « Mon testament spirituel »",
+      "author": "Hippolyte NGIMBI NSEKA",
+      "publisher": null,
+      "publishingHouse": "Presses de l’Université Catholique du Congo",
+      "isbn": null,
+      "year": 2021,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Qu’est-ce qu’une société juste ?",
+      "author": "Philippe Van Parijs",
+      "publisher": null,
+      "publishingHouse": "Seuil",
+      "isbn": null,
+      "year": 1991,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163731947-Questcequunesocitjuste.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Quia ego servus- Car je suis serviteur",
+      "author": "A. Kabasele Mukenge, L. Museka Ntumba",
+      "publisher": null,
+      "publishingHouse": "Médiaspaul",
+      "isbn": null,
+      "year": 2022,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Radici",
+      "author": "Alex Haley",
+      "publisher": null,
+      "publishingHouse": "Reader’s Digest Association, Inc",
+      "isbn": null,
+      "year": 1976,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163854281-Radici.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Rationalité et communication à l’ère des technologies de l’information et de la communication",
+      "author": "Denis BOSOMI Limbaya",
+      "publisher": null,
+      "publishingHouse": "CS",
+      "isbn": null,
+      "year": 2025,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "S’enraciner en Dieu pour vivre vrai",
+      "author": "Armel Duteil et Placide Mandona",
+      "publisher": null,
+      "publishingHouse": "L’harmattan",
+      "isbn": null,
+      "year": 2018,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "SommeThéologique I et II",
+      "author": "THOMAS D’AQUIN",
+      "publisher": null,
+      "publishingHouse": "Cerf",
+      "isbn": null,
+      "year": 2024,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Sorcellerie et enjeux du développement en Afrique",
+      "author": "Nathanael Yaovi SOÉDE",
+      "publisher": null,
+      "publishingHouse": "RUCAO",
+      "isbn": null,
+      "year": 2007,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "literature"
+      ]
+    },
+    {
+      "title": "Statistiques et génocide au Rwanda",
+      "author": "Facil TESFAYE",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2014,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "STRESS E BURNOUNT. Negli operatori pastorali",
+      "author": "GUISEPPE CREA",
+      "publisher": null,
+      "publishingHouse": "MISSIONARIA ITALIANA",
+      "isbn": null,
+      "year": 1994,
+      "edition": null,
+      "language": "IT",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Synodalité et Communion",
+      "author": "Fridolin Cardinal AMBONGO BESUNGU, ofm cap",
+      "publisher": null,
+      "publishingHouse": "L’archidiocèse de Kinshasa",
+      "isbn": null,
+      "year": 2020,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Témoin de l’Evangile",
+      "author": "Frère Robert SCHIELER",
+      "publisher": null,
+      "publishingHouse": "Revue de la mission lasallienne au Congo",
+      "isbn": null,
+      "year": 2020,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Théorie de la justice",
+      "author": "John Rawls",
+      "publisher": null,
+      "publishingHouse": "Points",
+      "isbn": null,
+      "year": 2009,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "This i believe the personal philosophies of Remarkable men and women",
+      "author": "Auteur inconnu",
+      "publisher": null,
+      "publishingHouse": "Picador",
+      "isbn": null,
+      "year": null,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Totalité et infini",
+      "author": "Emmanuel Levinas",
+      "publisher": null,
+      "publishingHouse": "Martinus Nijhoff",
+      "isbn": null,
+      "year": 1971,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163569249-Totalitetinfini.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Tractatus logico-philosophicus",
+      "author": "LUDWIG WITTGENSTEIN",
+      "publisher": null,
+      "publishingHouse": "Gallimard",
+      "isbn": null,
+      "year": 1922,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163536354-Tractatuslogicophilosophicus.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Traduire de l’anglais et du Français en langue nationales congolaises",
+      "author": "Macaire Eyupar Epietung",
+      "publisher": null,
+      "publishingHouse": "Centre de recherches pédagogiques/ kinshasa",
+      "isbn": null,
+      "year": 2024,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792175200800-24f7c5f1.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "Enregistrement livres littérature"
+      ],
+      "isActive": true,
+      "categories": [
+        "dictionaries",
+        "literature"
+      ]
+    },
+    {
+      "title": "Traité du gouvernement civil",
+      "author": "LOCK",
+      "publisher": null,
+      "publishingHouse": "Flammarion",
+      "isbn": null,
+      "year": 1984,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163487418-Traitdugouvernementcivil.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Vie consacrée et prophétisme en Afrique",
+      "author": "Benjamin Sombel Sarr",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2019,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Vie et éthique, de Bergson à nous",
+      "author": "Ebénézer Njohn MOUELLE et Émile KENMOGNE (eds)",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2015,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Vision africaine d’une crise de l’éducation",
+      "author": "Hervé Carlos",
+      "publisher": null,
+      "publishingHouse": "Harmattan",
+      "isbn": null,
+      "year": 2009,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Vita consecreta",
+      "author": "Jean Paul II",
+      "publisher": null,
+      "publishingHouse": "Médiaspaul",
+      "isbn": null,
+      "year": 1996,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "LES LIVRES THEOLOGIQUES"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "Vocabulaire technique et critique de la philosophie",
+      "author": "André Lalande",
+      "publisher": null,
+      "publishingHouse": "Puf",
+      "isbn": null,
+      "year": 1996,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": "/uploads/covers/1792163548448-Vocabulairetechniqueetcritiquedelaphilosophie.jpg",
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DE LIVRES ISAAC"
+      ],
+      "isActive": true,
+      "categories": [
+        "philosophy"
+      ]
+    },
+    {
+      "title": "Voici mon esprit",
+      "author": "Joseph ALLAMANO",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": 2004,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    },
+    {
+      "title": "YOUCAT",
+      "author": "Pape Benoit XVI",
+      "publisher": null,
+      "publishingHouse": "MEDIASPAUL",
+      "isbn": null,
+      "year": null,
+      "edition": null,
+      "language": "FR",
+      "pageCount": null,
+      "summary": null,
+      "coverUrl": null,
+      "totalCopies": 1,
+      "availableCopies": 1,
+      "location": null,
+      "tags": [
+        "import-docx",
+        "RÉPERTOIRE DES LIVRES Théo Isaac"
+      ],
+      "isActive": true,
+      "categories": [
+        "theology"
+      ]
+    }
+  ]
+}
