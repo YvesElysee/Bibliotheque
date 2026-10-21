@@ -3,7 +3,22 @@ const QRCode = require('qrcode');
 const prisma = require('../../config/database');
 
 const LIBRARY_NAME = process.env.LIBRARY_NAME || 'Bibliothèque Scolasticat Père Piariste';
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5500';
+
+/**
+ * Adresse publique du site utilisée dans les QR codes.
+ * Priorité : variable FRONTEND_URL, puis l'adresse réelle de la requête
+ * (fonctionne automatiquement sur Render), puis localhost en développement.
+ */
+const resolveFrontendUrl = (req) => {
+  const configured = (process.env.FRONTEND_URL || '').trim().replace(/\/+$/, '');
+  if (configured && !/localhost|127\.0\.0\.1/i.test(configured)) return configured;
+  if (req) {
+    const proto = (req.get('x-forwarded-proto') || req.protocol || 'https').split(',')[0].trim();
+    const host = req.get('x-forwarded-host') || req.get('host');
+    if (host && !/localhost|127\.0\.0\.1/i.test(host)) return `${proto}://${host}`;
+  }
+  return configured || 'http://localhost:5500';
+};
 
 /**
  * Génère un PDF de l'inventaire complet des livres.
@@ -144,14 +159,14 @@ const generateLoanSheetPDF = async (res, userId) => {
 /**
  * Génère le QR Code d'un livre (URL vers sa fiche).
  */
-const generateBookQRCode = async (res, bookId) => {
+const generateBookQRCode = async (res, bookId, req) => {
   const book = await prisma.book.findUnique({
     where: { id: bookId },
     select: { id: true, title: true, author: true },
   });
   if (!book) throw Object.assign(new Error('Livre introuvable.'), { statusCode: 404 });
 
-  const url = `${FRONTEND_URL}/pages/index.html#book/${bookId}`;
+  const url = `${resolveFrontendUrl(req)}/pages/index.html#book/${bookId}`;
   const qrBuffer = await QRCode.toBuffer(url, { type: 'png', width: 300, margin: 2 });
 
   res.setHeader('Content-Type', 'image/png');
@@ -165,7 +180,7 @@ const generateBookQRCode = async (res, bookId) => {
  * @param {object} res - réponse Express
  * @param {string[]} [ids] - sous-ensemble d'identifiants de livres (sinon tous)
  */
-const generateBookLabelsPDF = async (res, ids) => {
+const generateBookLabelsPDF = async (res, ids, req) => {
   const where = { isActive: true };
   if (Array.isArray(ids) && ids.length > 0) where.id = { in: ids };
 
@@ -226,7 +241,7 @@ const generateBookLabelsPDF = async (res, ids) => {
 
     // QR code
     const qrSize = labelH - 12;
-    const url = `${FRONTEND_URL}/pages/index.html#book/${book.id}`;
+    const url = `${resolveFrontendUrl(req)}/pages/index.html#book/${book.id}`;
     // eslint-disable-next-line no-await-in-loop
     const qrBuffer = await QRCode.toBuffer(url, { type: 'png', width: 256, margin: 1 });
     doc.image(qrBuffer, x + 6, y + 6, { width: qrSize, height: qrSize });

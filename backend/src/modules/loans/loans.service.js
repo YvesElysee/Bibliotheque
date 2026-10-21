@@ -158,4 +158,41 @@ const markOverdueLoans = async () => {
   return result.count;
 };
 
-module.exports = { createLoan, returnLoan, renewLoan, getMyLoans, getAllLoans, markOverdueLoans };
+// ─── Relances (emprunts bientôt dus / en retard) ───────────────────────────────
+// Sert à l'écran « Relances » de l'administration : permet de recontacter les
+// membres (WhatsApp / e-mail) sans dépendre de l'envoi d'e-mails.
+const REMINDER_DAYS = parseInt(process.env.REMINDER_DAYS || '3');
+
+const getReminders = async ({ days = REMINDER_DAYS } = {}) => {
+  const now = new Date();
+  const dayMs = 24 * 60 * 60 * 1000;
+
+  const loans = await prisma.loan.findMany({
+    where: { returnedAt: null },
+    orderBy: { dueDate: 'asc' },
+    include: {
+      user: { select: { id: true, firstName: true, lastName: true, email: true, phone: true } },
+      book: { select: { id: true, title: true, author: true } },
+    },
+  });
+
+  const enriched = loans.map((l) => ({
+    id: l.id,
+    book: l.book,
+    user: l.user,
+    dueDate: l.dueDate,
+    borrowedAt: l.borrowedAt,
+    renewalCount: l.renewalCount,
+    status: l.status,
+    daysLeft: Math.ceil((new Date(l.dueDate).getTime() - now.getTime()) / dayMs),
+  }));
+
+  return {
+    reminderDays: days,
+    generatedAt: now,
+    overdue: enriched.filter((l) => l.daysLeft < 0),
+    dueSoon: enriched.filter((l) => l.daysLeft >= 0 && l.daysLeft <= days),
+  };
+};
+
+module.exports = { createLoan, returnLoan, renewLoan, getMyLoans, getAllLoans, markOverdueLoans, getReminders };

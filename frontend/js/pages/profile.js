@@ -44,6 +44,7 @@ async function loadProfile() {
     document.getElementById('profile-firstname').value = u.firstName || '';
     document.getElementById('profile-lastname').value = u.lastName || '';
     document.getElementById('profile-email').value = u.email || '';
+    document.getElementById('profile-phone').value = u.phone || '';
     document.getElementById('profile-language').value = u.preferredLanguage || 'FR';
 
     const roleMap = { ADMIN: 'Administrateur', LIBRARIAN: 'Bibliothécaire', MEMBER: 'Prêtre / Membre' };
@@ -63,6 +64,7 @@ function setupForm() {
     const payload = {
       firstName: formData.get('firstName').trim(),
       lastName: formData.get('lastName').trim(),
+      phone: (formData.get('phone') || '').trim(),
       preferredLanguage: formData.get('preferredLanguage'),
     };
 

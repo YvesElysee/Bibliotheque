@@ -75,6 +75,14 @@
         <span id="overdue-badge" class="hidden ml-auto badge-overdue badge text-xs px-1.5 py-0.5">!</span>
       </button>
 
+      <button class="sidebar-item w-full text-left" data-section="reminders">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+        Relances
+        <span id="reminders-badge" class="hidden ml-auto badge bg-red-500/20 text-red-400 border-red-500/30 text-xs px-1.5 py-0.5"></span>
+      </button>
+
       <button class="sidebar-item w-full text-left" data-section="requests">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -290,6 +298,46 @@
           </div>
         </div>
         <div id="loans-pagination" class="pagination"></div>
+      </section>
+
+      <!-- Section Relances (rappels d'emprunts) -->
+      <section id="section-reminders" class="hidden animate-fade-in">
+        <div class="card mb-6">
+          <div class="flex flex-wrap items-center gap-3">
+            <label for="reminder-days" class="text-xs font-medium text-slate-300">Prévenir</label>
+            <select id="reminder-days" class="form-select text-sm py-2 rounded-xl w-auto">
+              <option value="1">1 jour avant</option>
+              <option value="3" selected>3 jours avant</option>
+              <option value="5">5 jours avant</option>
+              <option value="7">7 jours avant</option>
+            </select>
+            <button id="reminders-refresh" class="btn btn-secondary btn-sm ml-auto">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              Actualiser
+            </button>
+          </div>
+          <p class="text-xs text-slate-500 mt-3">
+            Cette page liste les livres à réclamer. Le bouton <strong>WhatsApp</strong> ouvre une conversation avec un message déjà rédigé
+            (le numéro du membre doit être renseigné dans son profil ; sinon WhatsApp vous laisse choisir le contact).
+            Le bouton <strong>Copier</strong> copie le message pour un envoi manuel.
+          </p>
+        </div>
+
+        <div class="card border-red-500/25 bg-red-500/[0.04] mb-8">
+          <h3 class="text-sm font-semibold text-red-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            En retard <span id="reminders-overdue-count" class="text-slate-500 normal-case font-normal"></span>
+          </h3>
+          <div id="reminders-overdue" class="space-y-3"></div>
+        </div>
+
+        <div class="card border-amber-500/25 bg-amber-500/[0.04]">
+          <h3 class="text-sm font-semibold text-amber-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Retours à venir <span id="reminders-duesoon-count" class="text-slate-500 normal-case font-normal"></span>
+          </h3>
+          <div id="reminders-duesoon" class="space-y-3"></div>
+        </div>
       </section>
 
       <!-- Section Livres signalés -->

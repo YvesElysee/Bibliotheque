@@ -50,4 +50,12 @@ const getAllLoans = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-module.exports = { createLoan, returnLoan, renewLoan, getMyLoans, getAllLoans };
+const getReminders = async (req, res, next) => {
+  try {
+    const days = req.query.days ? parseInt(req.query.days, 10) : undefined;
+    const data = await loansService.getReminders({ days: Number.isFinite(days) ? days : undefined });
+    return success(res, data, 'Relances chargées.');
+  } catch (err) { next(err); }
+};
+
+module.exports = { createLoan, returnLoan, renewLoan, getMyLoans, getAllLoans, getReminders };

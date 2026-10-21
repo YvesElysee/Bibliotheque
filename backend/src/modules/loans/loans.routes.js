@@ -7,6 +7,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/my', controller.getMyLoans);
+router.get('/reminders', authorize('LIBRARIAN', 'ADMIN'), controller.getReminders);
 router.put('/:id/renew', controller.renewLoan);
 router.get('/', authorize('LIBRARIAN', 'ADMIN'), controller.getAllLoans);
 router.post('/', authorize('LIBRARIAN', 'ADMIN'), controller.createLoan);

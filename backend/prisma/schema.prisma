@@ -51,6 +51,7 @@ model User {
   password          String
   firstName         String
   lastName          String
+  phone             String?   // Optionnel — sert aux relances WhatsApp
   role              Role      @default(MEMBER)
   isEmailVerified   Boolean   @default(false)
   emailVerifyToken  String?

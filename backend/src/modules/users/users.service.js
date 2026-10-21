@@ -20,7 +20,7 @@ const getAll = async (query) => {
     where, skip, take,
     orderBy: { createdAt: 'desc' },
     select: {
-      id: true, email: true, firstName: true, lastName: true,
+      id: true, email: true, firstName: true, lastName: true, phone: true,
       role: true, isEmailVerified: true, isActive: true,
       preferredLanguage: true, lastLoginAt: true, createdAt: true,
       _count: { select: { loans: true, reservations: true } },
@@ -61,15 +61,21 @@ const getProfile = async (id) => {
   return prisma.user.findUnique({
     where: { id },
     select: {
-      id: true, email: true, firstName: true, lastName: true,
+      id: true, email: true, firstName: true, lastName: true, phone: true,
       role: true, preferredLanguage: true, lastLoginAt: true, createdAt: true,
     },
   });
 };
 
-const updateProfile = async (id, { firstName, lastName, preferredLanguage, currentPassword, newPassword }) => {
+const updateProfile = async (id, { firstName, lastName, phone, preferredLanguage, currentPassword, newPassword }) => {
   const user = await prisma.user.findUnique({ where: { id } });
   const data = { firstName, lastName, preferredLanguage };
+
+  if (phone !== undefined) {
+    // Normalise en gardant uniquement les chiffres et un éventuel « + » initial
+    const cleaned = String(phone).trim();
+    data.phone = cleaned === '' ? null : cleaned.replace(/[^\d+]/g, '');
+  }
 
   if (newPassword) {
     if (!currentPassword) { const err = new Error('Mot de passe actuel requis.'); err.statusCode = 400; throw err; }
@@ -78,7 +84,7 @@ const updateProfile = async (id, { firstName, lastName, preferredLanguage, curre
     data.password = await bcrypt.hash(newPassword, 12);
   }
 
-  return prisma.user.update({ where: { id }, data, select: { id: true, email: true, firstName: true, lastName: true, preferredLanguage: true } });
+  return prisma.user.update({ where: { id }, data, select: { id: true, email: true, firstName: true, lastName: true, phone: true, preferredLanguage: true } });
 };
 
 const getAdminStats = async () => {

@@ -33,9 +33,34 @@ const categoriesFilter = document.getElementById('categories-filter');
 (async function init() {
   await auth.ready();
   setupNavbar();
-  await Promise.all([loadCategories(), loadStats(), fetchBooks()]);
+  await Promise.all([loadCategories(), loadStats(), loadFromHash()]);
   setupEventListeners();
 })();
+
+// ─── Ouverture directe d'une fiche (QR codes imprimés) ─────────────────────────
+// Un QR code collé sur un livre pointe vers /pages/index.html#book/<id>.
+async function loadFromHash() {
+  const match = /^#book\/([A-Za-z0-9-]+)$/.exec(window.location.hash || '');
+  if (!match) {
+    await fetchBooks();
+    return;
+  }
+
+  await openBookFromHash(match[1]);
+
+  // On garde la liste chargée en arrière-plan pour que l'utilisateur
+  // retrouve le catalogue en fermant la fiche.
+  await fetchBooks();
+}
+
+async function openBookFromHash(bookId) {
+  try {
+    const res = await api.get(`/books/${bookId}`);
+    if (res && res.data) await openBookDetail(res.data);
+  } catch {
+    toast.error('Ouvrage introuvable. Il a peut-être été retiré du catalogue.');
+  }
+}
 
 // ─── Navbar ────────────────────────────────────────────────────────────────────
 function setupNavbar() {
@@ -220,8 +245,7 @@ async function openBookDetail(book) {
   contentEl.innerHTML = `<div class="text-center py-8"><div class="skeleton w-12 h-12 rounded-full mx-auto"></div></div>`;
 
   try {
-    const res = await api.get(`/books/${book.id}`);
-    const b = res.data;
+    const b = book.detail || (await api.get(`/books/${book.id}`)).data;
 
     const isAvailable = b.availableCopies > 0;
     const user = auth.getUser();
@@ -355,6 +379,7 @@ async function openBookDetail(book) {
     });
 
   } catch (err) {
+    if (!contentEl.isConnected) return;
     contentEl.innerHTML = `<p class="text-red-400 text-center py-8">${err.message}</p>`;
   }
 }

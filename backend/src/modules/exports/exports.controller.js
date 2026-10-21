@@ -13,7 +13,7 @@ const loanSheet = async (req, res, next) => {
 };
 
 const bookQRCode = async (req, res, next) => {
-  try { await exportsService.generateBookQRCode(res, req.params.bookId); }
+  try { await exportsService.generateBookQRCode(res, req.params.bookId, req); }
   catch (err) { next(err); }
 };
 
@@ -23,7 +23,7 @@ const bookLabels = async (req, res, next) => {
     const ids = typeof req.query.ids === 'string' && req.query.ids.trim()
       ? req.query.ids.split(',').map((s) => s.trim()).filter(Boolean)
       : undefined;
-    await exportsService.generateBookLabelsPDF(res, ids);
+    await exportsService.generateBookLabelsPDF(res, ids, req);
   } catch (err) { next(err); }
 };
 
