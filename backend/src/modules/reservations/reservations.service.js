@@ -44,7 +44,18 @@ const getMyReservations = async (userId, query) => {
     orderBy: { createdAt: 'desc' },
     include: { book: { select: { id: true, title: true, author: true, coverUrl: true } } },
   });
-  return { reservations, meta };
+  // Ajoute le rang exact par livre pour les réservations en attente
+  const enriched = await Promise.all(reservations.map(async (r) => {
+    if (r.status !== 'PENDING' && r.status !== 'NOTIFIED') {
+      return { ...r, queueRank: null, queueTotal: null };
+    }
+    const total = await prisma.reservation.count({ where: { bookId: r.bookId, status: { in: ['PENDING', 'NOTIFIED'] } } });
+    const rank = await prisma.reservation.count({
+      where: { bookId: r.bookId, status: { in: ['PENDING', 'NOTIFIED'] }, createdAt: { lte: r.createdAt } },
+    });
+    return { ...r, queueRank: rank, queueTotal: total };
+  }));
+  return { reservations: enriched, meta };
 };
 
 const getBookReservations = async (bookId, query) => {

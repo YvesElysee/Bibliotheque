@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Navigation initiale selon hash (#books, #loans, etc.)
   const hash = window.location.hash.replace('#', '');
-  if (['dashboard', 'books', 'categories', 'loans', 'reminders', 'requests', 'users', 'audit'].includes(hash)) {
+  if (['dashboard', 'books', 'categories', 'loans', 'reminders', 'requests', 'users', 'audit', 'messages'].includes(hash)) {
     switchSection(hash);
   } else {
     switchSection('dashboard');
@@ -120,6 +120,12 @@ function switchSection(sectionId) {
     case 'reminders':
       loadReminders();
       break;
+    case 'messages':
+      loadMessages();
+      break;
+    case 'messages':
+      loadMessages();
+      break;
     case 'requests':
       loadRequests();
       break;
@@ -174,6 +180,14 @@ function updateHeader(sectionId) {
     case 'reminders':
       pageTitle.textContent = 'Relances des emprunts';
       pageSubtitle.textContent = 'Rappelez aux membres les livres à rapporter (WhatsApp ou message à copier)';
+      break;
+    case 'messages':
+      pageTitle.textContent = 'Messages visiteurs';
+      pageSubtitle.textContent = 'Messages envoyés depuis le formulaire "Contacter l\'administration"';
+      break;
+    case 'messages':
+      pageTitle.textContent = 'Messages visiteurs';
+      pageSubtitle.textContent = 'Messages envoyés depuis le formulaire "Contacter l\'administration"';
       break;
     case 'users':
       pageTitle.textContent = 'Membres inscrits';
@@ -2038,3 +2052,94 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+
+// ─── Messages (contact administration) ───────────────────────────────────────
+let currentMessageId = null;
+
+async function updateMessagesBadge() {
+  try {
+    const res = await api.get('/messages/unread/count');
+    const c = res.data && res.data.count ? res.data.count : 0;
+    const badge = document.getElementById('messages-badge');
+    if (badge) {
+      badge.textContent = c;
+      badge.classList.toggle('hidden', c === 0);
+    }
+  } catch (e) {}
+}
+
+async function loadMessages() {
+  const list = document.getElementById('messages-list');
+  const empty = document.getElementById('messages-list-empty');
+  const countEl = document.getElementById('messages-list-count');
+  if (!list) return;
+  list.innerHTML = '<p class="text-sm text-slate-500 p-4">Chargement...</p>';
+  if (empty) empty.classList.add('hidden');
+  try {
+    const res = await api.get('/messages?limit=50');
+    const items = res.data || [];
+    if (countEl) countEl.textContent = items.length ? '(' + items.length + ')' : '';
+    if (!items.length) {
+      list.innerHTML = '';
+      if (empty) empty.classList.remove('hidden');
+      document.getElementById('messages-detail').classList.add('hidden');
+      document.getElementById('messages-detail-empty').classList.remove('hidden');
+      updateMessagesBadge();
+      return;
+    }
+    list.innerHTML = items.map(function(m) {
+      return '<button class="w-full text-left p-3 hover:bg-slate-800/40 ' + (m.isRead ? '' : 'bg-amber-500/[0.04]') + '" data-id="' + m.id + '">' +
+        '<div class="flex items-center justify-between gap-2"><p class="text-sm text-white truncate">' + escapeHtml(m.firstName + ' ' + m.lastName) + '</p>' +
+        '<span class="text-[10px] text-slate-500">' + new Date(m.createdAt).toLocaleDateString('fr-FR') + '</span></div>' +
+        '<p class="text-xs text-slate-400 truncate mt-0.5">' + escapeHtml(m.subject) + '</p>' +
+        '<p class="text-[11px] text-slate-600 truncate">' + escapeHtml(m.email) + '</p></button>';
+    }).join('');
+    list.querySelectorAll('button').forEach(function(b) {
+      b.addEventListener('click', function() { showMessage(b.dataset.id); });
+    });
+    updateMessagesBadge();
+  } catch (e) {
+    list.innerHTML = '<p class="text-sm text-red-400 p-4">Erreur de chargement.</p>';
+  }
+}
+
+async function showMessage(id) {
+  currentMessageId = id;
+  try {
+    const res = await api.get('/messages/' + id);
+    const m = res.data;
+    document.getElementById('messages-detail-empty').classList.add('hidden');
+    document.getElementById('messages-detail').classList.remove('hidden');
+    document.getElementById('msg-subject').textContent = m.subject || '';
+    document.getElementById('msg-meta').textContent = m.isRead ? ('Lu' + (m.readBy ? ' par ' + m.readBy.firstName + ' ' + m.readBy.lastName : '')) : 'Non lu';
+    document.getElementById('msg-body').textContent = m.message || '';
+    document.getElementById('msg-name').textContent = (m.firstName + ' ' + m.lastName).trim();
+    document.getElementById('msg-email').textContent = m.email || '';
+    document.getElementById('msg-phone').textContent = m.phone || '—';
+    document.getElementById('msg-date').textContent = m.createdAt ? new Date(m.createdAt).toLocaleString('fr-FR') : '—';
+    var t = document.getElementById('msg-toggle-read');
+    t.textContent = m.isRead ? 'Marquer comme non lu' : 'Marquer comme lu';
+    t.onclick = async function() {
+      if (m.isRead) await api.put('/messages/' + id + '/unread');
+      else await api.put('/messages/' + id + '/read');
+      loadMessages();
+      showMessage(id);
+    };
+    var d = document.getElementById('msg-delete');
+    d.onclick = async function() {
+      if (!confirm('Supprimer ce message ?')) return;
+      await api.delete('/messages/' + id);
+      currentMessageId = null;
+      document.getElementById('messages-detail').classList.add('hidden');
+      document.getElementById('messages-detail-empty').classList.remove('hidden');
+      loadMessages();
+    };
+    updateMessagesBadge();
+  } catch (e) {}
+}
+
+var mr = document.getElementById('messages-refresh');
+if (mr) mr.addEventListener('click', loadMessages);
+updateMessagesBadge();
+setInterval(updateMessagesBadge, 60000);

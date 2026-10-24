@@ -15,6 +15,7 @@ const usersRoutes = require('./modules/users/users.routes');
 const booksRoutes = require('./modules/books/books.routes');
 const loansRoutes = require('./modules/loans/loans.routes');
 const reservationsRoutes = require('./modules/reservations/reservations.routes');
+const messagesRoutes = require('./modules/messages/messages.routes');
 const reviewsRoutes = require('./modules/reviews/reviews.routes');
 const requestsRoutes = require('./modules/requests/requests.routes');
 const categoriesRoutes = require('./modules/categories/categories.routes');
@@ -88,6 +89,7 @@ app.use('/api/loans', loansRoutes);
 app.use('/api/reservations', reservationsRoutes);
 app.use('/api/reviews', reviewsRoutes);
 app.use('/api/requests', requestsRoutes);
+app.use('/api/messages', messagesRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/exports', exportsRoutes);
 

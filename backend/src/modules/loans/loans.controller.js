@@ -11,10 +11,24 @@ const createLoan = async (req, res, next) => {
       notes: z.string().max(500).optional().nullable(),
       dueDateOverride: z.string().optional().nullable(),
       dueDate: z.string().optional().nullable(),
+      durationDays: z.coerce.number().int().min(1).max(365).optional(),
+      loanDays: z.coerce.number().int().min(1).max(365).optional(),
+      days: z.coerce.number().int().min(1).max(365).optional(),
     });
     const parsed = schema.parse(req.body);
-    const { dueDate, ...data } = parsed;
+    const { dueDate, durationDays, loanDays, days, ...rest } = parsed;
+    let data = { ...rest };
     if (!data.dueDateOverride && dueDate) data.dueDateOverride = dueDate;
+    const d = durationDays || loanDays || days;
+    if (d && !data.dueDateOverride) {
+      const n = parseInt(d, 10);
+      if (Number.isFinite(n) && n > 0 && n <= 365) {
+        const dd = new Date();
+        dd.setHours(23, 59, 59, 999);
+        dd.setDate(dd.getDate() + n);
+        data.dueDateOverride = dd.toISOString();
+      }
+    }
     const loan = await loansService.createLoan(data, req.user.id);
     await auditLog({ userId: req.user.id, action: 'CREATE_LOAN', entityType: 'loan', entityId: loan.id, details: { bookId: data.bookId, borrowerId: data.userId }, ipAddress: req.ip });
     return created(res, loan, 'Emprunt enregistré.');

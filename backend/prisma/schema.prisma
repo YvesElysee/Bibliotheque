@@ -72,6 +72,7 @@ model User {
   notifications     Notification[]
   refreshTokens     RefreshToken[]
   auditLogs         AuditLog[]
+  readContactMessages ContactMessage[] @relation("ContactMessageReadBy")
 
   @@map("users")
 }
@@ -247,4 +248,24 @@ model AuditLog {
   @@index([userId])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  readAt    DateTime?
+  readById  String?
+  readBy    User?    @relation("ContactMessageReadBy", fields: [readById], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isRead])
+  @@index([createdAt])
+  @@map("contact_messages")
 }
