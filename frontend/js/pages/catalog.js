@@ -322,11 +322,21 @@ async function openBookDetail(book) {
             ${b.location ? `<div><dt class="text-slate-500">Emplacement</dt><dd class="text-white">${b.location}</dd></div>` : ''}
           </dl>
 
-          ${b.summary ? `
-            <div class="mb-4">
-              <h4 class="text-sm font-medium text-slate-300 mb-2">Résumé</h4>
-              <p class="text-sm text-slate-400 leading-relaxed">${b.summary}</p>
-            </div>` : ''}
+          <div class="mb-4">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-sm font-medium text-slate-300">Résumé</h4>
+              <button type="button" id="ai-summary-generate" class="btn btn-secondary btn-xs" data-title="${escapeAttr(b.title)}" data-author="${escapeAttr(b.author||'')}" data-year="${b.year||''}" data-summary="${escapeAttr(b.summary||'')}">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                Résumé IA
+              </button>
+            </div>
+            <div id="ai-summary-box" class="hidden">
+              <p id="ai-summary-text" class="text-sm text-slate-400 leading-relaxed"></p>
+              <p id="ai-summary-loading" class="text-xs text-slate-500 hidden">Génération du résumé avec l'IA...</p>
+              <p id="ai-summary-error" class="text-xs text-red-400 hidden"></p>
+            </div>
+            ${b.summary ? `<p id="existing-summary" class="text-sm text-slate-400 leading-relaxed">${b.summary}</p>` : `<p id="no-summary" class="text-xs text-slate-500">Aucun résumé disponible. Cliquez sur "Résumé IA" pour en générer un.</p>`}
+          </div>
 
           <!-- Actions -->
           ${user ? `
@@ -377,6 +387,39 @@ async function openBookDetail(book) {
         toast.error(err.message);
       }
     });
+
+    var aiBtn = document.getElementById('ai-summary-generate');
+    if (aiBtn) {
+      aiBtn.addEventListener('click', async function(e) {
+        var btn = e.currentTarget;
+        var box = document.getElementById('ai-summary-box');
+        var txt = document.getElementById('ai-summary-text');
+        var loading = document.getElementById('ai-summary-loading');
+        var errEl = document.getElementById('ai-summary-error');
+        if (document.getElementById('existing-summary')) document.getElementById('existing-summary').classList.add('hidden');
+        if (document.getElementById('no-summary')) document.getElementById('no-summary').classList.add('hidden');
+        if (box) box.classList.remove('hidden');
+        if (txt) txt.textContent = '';
+        if (errEl) errEl.classList.add('hidden');
+        if (loading) loading.classList.remove('hidden');
+        btn.disabled = true; btn.classList.add('opacity-50');
+        try {
+          var res = await fetch('/api/books/ai-summary', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: btn.dataset.title, author: btn.dataset.author || undefined, year: btn.dataset.year || undefined, summary: btn.dataset.summary || undefined })
+          });
+          var json = await res.json();
+          if (!res.ok) throw new Error(json.message || 'Erreur IA');
+          if (txt) txt.textContent = (json.data && json.data.summary) ? json.data.summary : '';
+        } catch (ex) {
+          if (errEl) { errEl.textContent = ex.message; errEl.classList.remove('hidden'); }
+        } finally {
+          if (loading) loading.classList.add('hidden');
+          btn.disabled = false; btn.classList.remove('opacity-50');
+        }
+      });
+    }
 
   } catch (err) {
     if (!contentEl.isConnected) return;
