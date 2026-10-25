@@ -31,25 +31,29 @@ async function generateBookSummary({ title, author, year, summary }) {
   }
 
   const candidates = [
+    'gemini-2.5-flash-lite',
+    'gemini-2.0-flash-lite',
+    'gemini-2.0-flash',
     process.env.GEMINI_MODEL,
     'gemini-2.5-flash',
-    'gemini-2.0-flash',
-    'gemini-1.5-flash-latest',
-    'gemini-1.5-flash',
     'gemini-flash-latest',
   ].filter((m, i, arr) => m && String(m).trim() && arr.indexOf(m) === i);
 
   const prompt = [
-    'Tu es un bibliothécaire catholique qui rédige de courtes présentations de livres en français.',
-    'Rédige un résumé factuel de 3 à 5 phrases pour le livre suivant :',
-    `- Titre : ${title || 'inconnu'}`,
-    author ? `- Auteur(s) : ${author}` : '',
-    year ? `- Année : ${year}` : '',
-    summary
-      ? `- Description brute disponible : ${summary}`
-      : '- Aucune description disponible : base-toi sur tes connaissances, reste sobre et prudent.',
-    "Contraintes : renvoie UNIQUEMENT le résumé, en français, sans HTML, sans titre d'introduction, sans guillemets décoratifs.",
-  ].filter(Boolean).join('\n');
+    "Tu es un bibliothécaire catholique sobre, précis et pédagogique.",
+    "Rédige un résumé substantiel de ce livre en français.",
+    "Objectif : entre 80 et 110 mots, soit 6 à 7 phrases bien enchaînées.",
+    "Fais ressortir le thème principal, le contexte si pertinent, le public visé et l'intérêt de l'ouvrage.",
+    "Sois factuel. N'invente pas de détails erronés. Si peu d'informations sont données, reste prudent sans être trop vague.",
+    "Contraintes : renvoie UNIQUEMENT le texte du résumé, sans titre, sans introduction, sans conclusion, sans guillemets, sans astérisques, sans HTML.",
+    "",
+    `Titre : ${title || 'inconnu'}`,
+    author ? `Auteur(s) : ${author}` : '',
+    year ? `Année : ${year}` : '',
+    summary ? `Éléments fournis : ${summary}` : "Aucun élément complémentaire fourni : appuie-toi sur tes connaissances solides et factuelles.",
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   let lastReason = '';
   for (let ki = 0; ki < keys.length; ki++) {
@@ -64,7 +68,7 @@ async function generateBookSummary({ title, author, year, summary }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { temperature: 0.4, maxOutputTokens: 350 },
+              generationConfig: { temperature: 0.4, maxOutputTokens: 450, topP: 0.9 },
             }),
           }
         );
@@ -81,10 +85,14 @@ async function generateBookSummary({ title, author, year, summary }) {
       }
       lastReason = data?.error?.message || `Réponse IA inattendue (HTTP ${res.status}).`;
 
-      const retryable = /no longer available|not found|do not exist|not supported|high demand|overloaded|temporarily|rate limit|quota|resource.?exhausted|429|500|503|404|invalid api key|permission denied|api key not valid/i.test(lastReason);
+      const retryable = /no longer available|not found|do not exist|not supported|high demand|overloaded|temporarily|rate limit|quota|resource.?exhausted|429|500|503|404|invalid api key|permission denied|api key not valid|unavailable/i.test(lastReason);
       if (!retryable) break;
       // Si clé invalide ou quota épuisé, on passe à la clé suivante
       if (/invalid api key|permission denied|api key not valid/i.test(lastReason)) break;
+      // Pour surcharge (high demand/unavailable) on passe directement à la clé suivante
+      if (/high demand|overloaded|unavailable|temporarily unavailable/i.test(lastReason)) {
+        break;
+      }
       if (/not found|is not supported|generateContent/i.test(lastReason) && !/rate limit|quota|429/i.test(lastReason)) {
         // Essayer le modèle suivant sans passer à la clé
         continue;

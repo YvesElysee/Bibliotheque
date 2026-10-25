@@ -10,8 +10,21 @@
   apply(saved === 'light' ? 'light' : 'dark');
 
   function mount() {
-    // Injecte bouton dans navbar
+    // Injecte bouton installer PWA dans navbar
     const navUser = document.getElementById('nav-user');
+    if (navUser && !document.getElementById('pwa-install-btn')) {
+      const installBtn = document.createElement('button');
+      installBtn.id = 'pwa-install-btn';
+      installBtn.type = 'button';
+      installBtn.className = 'hidden ml-1 px-2.5 py-1.5 rounded-lg hover:bg-slate-800/60 text-slate-400 hover:text-white transition-colors text-sm items-center gap-1.5';
+      installBtn.title = "Installer l'application sur cet appareil";
+      installBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg><span class="hidden md:inline">Installer l'app</span>`;
+      if (navUser.parentElement) {
+        navUser.parentElement.insertBefore(installBtn, navUser);
+      }
+    }
+
+    // Injecte bouton dans navbar
     if (navUser && !document.getElementById('theme-toggle-btn')) {
       const btn = document.createElement('button');
       btn.id = 'theme-toggle-btn';
