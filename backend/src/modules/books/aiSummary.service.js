@@ -1,6 +1,6 @@
 /**
  * Résumé automatique d'un livre via l'IA gratuite Google Gemini.
- * Supporte plusieurs clés (rotation) pour contourner le quota gratuit.
+ * Version optimisée pour éviter la surcharge "high demand".
  */
 
 function getGeminiKeys() {
@@ -15,7 +15,6 @@ function getGeminiKeys() {
   if (process.env.GEMINI_API_KEY_2) keys.push(process.env.GEMINI_API_KEY_2.trim());
   if (process.env.GEMINI_API_KEY_3) keys.push(process.env.GEMINI_API_KEY_3.trim());
   if (process.env.GEMINI_API_KEY) keys.push(process.env.GEMINI_API_KEY.trim());
-  // dédoublonnage
   return [...new Set(keys.filter(Boolean))];
 }
 
@@ -23,84 +22,98 @@ async function generateBookSummary({ title, author, year, summary }) {
   const keys = getGeminiKeys();
   if (keys.length === 0) {
     const err = new Error(
-      "IA non configurée : ajoute au moins une clé GEMINI_API_KEY (ou GEMINI_API_KEYS / GEMINI_API_KEY_1/2/3) gratuite depuis https://aistudio.google.com/apikey dans .env puis redémarre le serveur."
+      "IA non configurée : ajoute au moins une clé GEMINI_API_KEY_1/2/3 depuis https://aistudio.google.com/apikey"
     );
     err.statusCode = 503;
     err.code = 'AI_NOT_CONFIGURED';
     throw err;
   }
 
-  const candidates = [
+  // Modèles les plus légers en priorité (moins de surcharge)
+  const models = [
     'gemini-2.5-flash-lite',
     'gemini-2.0-flash-lite',
-    'gemini-2.0-flash',
-    process.env.GEMINI_MODEL,
-    'gemini-2.5-flash',
-    'gemini-flash-latest',
-  ].filter((m, i, arr) => m && String(m).trim() && arr.indexOf(m) === i);
+    'gemini-1.5-flash',
+    'gemini-2.0-flash'
+  ];
 
   const prompt = [
-    "Tu es un bibliothécaire catholique sobre, précis et pédagogique.",
-    "Rédige un résumé substantiel de ce livre en français.",
-    "Objectif : entre 80 et 110 mots, soit 6 à 7 phrases bien enchaînées.",
-    "Fais ressortir le thème principal, le contexte si pertinent, le public visé et l'intérêt de l'ouvrage.",
-    "Sois factuel. N'invente pas de détails erronés. Si peu d'informations sont données, reste prudent sans être trop vague.",
-    "Contraintes : renvoie UNIQUEMENT le texte du résumé, sans titre, sans introduction, sans conclusion, sans guillemets, sans astérisques, sans HTML.",
-    "",
-    `Titre : ${title || 'inconnu'}`,
-    author ? `Auteur(s) : ${author}` : '',
-    year ? `Année : ${year}` : '',
-    summary ? `Éléments fournis : ${summary}` : "Aucun élément complémentaire fourni : appuie-toi sur tes connaissances solides et factuelles.",
-  ]
-    .filter(Boolean)
-    .join('\n');
+    'Résume ce livre en français en 60 à 80 mots, 4 à 5 phrases.',
+    'Sois concis, factuel, sans introduction ni conclusion.',
+    `Titre: ${title || 'inconnu'}`,
+    author ? `Auteur: ${author}` : '',
+    year ? `Année: ${year}` : '',
+    summary ? `Infos: ${summary}` : ''
+  ].filter(Boolean).join('\n');
 
   let lastReason = '';
+
+  // Essayer TOUTES les combinaisons (clé + modèle)
   for (let ki = 0; ki < keys.length; ki++) {
     const key = keys[ki];
-    for (const model of candidates) {
-      let res;
+    for (let mi = 0; mi < models.length; mi++) {
+      const model = models[mi];
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+
       try {
-        res = await fetch(
+        const res = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { temperature: 0.4, maxOutputTokens: 450, topP: 0.9 },
+              generationConfig: {
+                temperature: 0.3,
+                maxOutputTokens: 280,
+                topP: 0.8
+              }
             }),
+            signal: controller.signal
           }
         );
+
+        clearTimeout(timeout);
+        const data = await res.json().catch(() => null);
+        const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join(' ').replace(/\s+/g, ' ') || '';
+
+        if (res.ok && text) {
+          return text.trim();
+        }
+
+        lastReason = data?.error?.message || `HTTP ${res.status}`;
       } catch (e) {
-        lastReason = "Impossible de joindre l'IA (vérifiez la connexion internet du serveur).";
+        clearTimeout(timeout);
+        if (e.name === 'AbortError') {
+          lastReason = 'Délai dépassé';
+        } else {
+          lastReason = 'Erreur réseau';
+        }
         continue;
       }
 
-      const data = await res.json().catch(() => null);
-      const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join(' ') || '';
-
-      if (res.ok && text) {
-        return text.trim();
-      }
-      lastReason = data?.error?.message || `Réponse IA inattendue (HTTP ${res.status}).`;
-
-      const retryable = /no longer available|not found|do not exist|not supported|high demand|overloaded|temporarily|rate limit|quota|resource.?exhausted|429|500|503|404|invalid api key|permission denied|api key not valid|unavailable/i.test(lastReason);
-      if (!retryable) break;
-      // Si clé invalide ou quota épuisé, on passe à la clé suivante
-      if (/invalid api key|permission denied|api key not valid/i.test(lastReason)) break;
-      // Pour surcharge (high demand/unavailable) on passe directement à la clé suivante
-      if (/high demand|overloaded|unavailable|temporarily unavailable/i.test(lastReason)) {
+      // Si c'est une surcharge ou quota -> passer DIRECTEMENT à la clé suivante
+      if (/high demand|overloaded|unavailable|temporarily|quota|resource exhausted|429/i.test(lastReason)) {
         break;
       }
-      if (/not found|is not supported|generateContent/i.test(lastReason) && !/rate limit|quota|429/i.test(lastReason)) {
-        // Essayer le modèle suivant sans passer à la clé
+
+      // Si clé invalide -> passer à la clé suivante
+      if (/invalid api key|api key not valid|permission denied/i.test(lastReason)) {
+        break;
+      }
+
+      // Si modèle non trouvé -> essayer le modèle suivant avec la même clé
+      if (/not found|not supported|is not found/i.test(lastReason)) {
         continue;
       }
+
+      // Autre erreur -> essayer quand même le modèle suivant
+      continue;
     }
   }
 
-  const err = new Error(`L'IA n'a pas pu générer le résumé : ${lastReason}`);
+  const err = new Error(`L'IA n'a pas pu générer le résumé. Essaie dans un instant.`);
   err.statusCode = 502;
   throw err;
 }
