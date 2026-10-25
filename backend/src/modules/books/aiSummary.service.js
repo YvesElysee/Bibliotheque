@@ -34,8 +34,10 @@ async function generateBookSummary({ title, author, year, summary }) {
     process.env.GEMINI_MODEL,
     'gemini-2.5-flash',
     'gemini-2.0-flash',
+    'gemini-1.5-flash-latest',
     'gemini-1.5-flash',
-  ].filter((m, i, arr) => m && arr.indexOf(m) === i);
+    'gemini-flash-latest',
+  ].filter((m, i, arr) => m && String(m).trim() && arr.indexOf(m) === i);
 
   const prompt = [
     'Tu es un bibliothécaire catholique qui rédige de courtes présentations de livres en français.',
@@ -83,6 +85,10 @@ async function generateBookSummary({ title, author, year, summary }) {
       if (!retryable) break;
       // Si clé invalide ou quota épuisé, on passe à la clé suivante
       if (/invalid api key|permission denied|api key not valid/i.test(lastReason)) break;
+      if (/not found|is not supported|generateContent/i.test(lastReason) && !/rate limit|quota|429/i.test(lastReason)) {
+        // Essayer le modèle suivant sans passer à la clé
+        continue;
+      }
     }
   }
 
