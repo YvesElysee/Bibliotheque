@@ -2,6 +2,7 @@
  * HTTP Client — Wrapper fetch uniforme
  * Authentification par cookies HttpOnly (envoyés automatiquement par le navigateur).
  * Gère : base URL, credentials, refresh de session, erreurs.
+ * + Mode hors-ligne : cache GET + file d'attente pour les actions
  */
 
 // Le frontend est servi par le backend Express (même origine) → base relative.
@@ -49,7 +50,70 @@ const _processQueue = (error) => {
   _failedQueue = [];
 };
 
+// Import dynamique pour éviter les erreurs si hors module
+let offlineDb = null;
+let syncManager = null;
+
+const _loadOfflineModules = async () => {
+  if (offlineDb) return;
+  try {
+    offlineDb = await import('./offline-db.js');
+    syncManager = await import('./sync-manager.js');
+  } catch (e) {
+    // Ignorer si les modules ne sont pas disponibles
+  }
+};
+
+// Déterminer quel store utiliser selon l'URL
+const _getStoreFromUrl = (path) => {
+  if (path.startsWith('/books')) return 'books';
+  if (path.startsWith('/users')) return 'users';
+  if (path.startsWith('/loans')) return 'loans';
+  if (path.startsWith('/reservations')) return 'reservations';
+  if (path.startsWith('/categories')) return 'categories';
+  if (path.startsWith('/messages')) return 'messages';
+  if (path.startsWith('/books/stats')) return 'stats';
+  return null;
+};
+
 const _request = async (method, path, body, attempt = 0) => {
+  await _loadOfflineModules();
+  
+  const isGet = method === 'GET';
+  const isAdminRoute = path.includes('/loans') || path.includes('/users') || path.includes('/reservations') || path.includes('/messages') || path.includes('/admin');
+  const store = _getStoreFromUrl(path);
+
+  // Pour les GET, essayer d'abord le cache si hors-ligne
+  if (isGet && !navigator.onLine && offlineDb) {
+    try {
+      const cached = await offlineDb.cacheGet(store || 'books', { all: true });
+      if (cached && cached.length > 0) {
+        console.log('[API] Données depuis le cache (hors-ligne):', path);
+        // Formater comme la réponse API
+        return { success: true, data: cached, fromCache: true };
+      }
+    } catch (e) {
+      console.warn('[API] Erreur lecture cache:', e);
+    }
+    throw new Error('Hors-ligne - Aucune donnée en cache pour cette page. Connectez-vous au réseau pour la charger.');
+  }
+
+  // Pour les actions de modification hors-ligne
+  if (!isGet && !navigator.onLine && offlineDb) {
+    try {
+      await offlineDb.queueAdd(method, path, body);
+      // Mettre à jour le compteur
+      window.dispatchEvent(new CustomEvent('sync:status', { detail: { status: 'pending' } }));
+      if (typeof window !== 'undefined' && window.toast) {
+        window.toast.info("Action enregistrée hors-ligne. Elle sera envoyée dès le retour de la connexion.");
+      }
+      // Simuler une réponse réussie
+      return { success: true, data: { queued: true }, message: "Action enregistrée hors-ligne" };
+    } catch (e) {
+      console.warn('[API] Erreur mise en file d\'attente:', e);
+    }
+  }
+
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       method,
@@ -59,7 +123,6 @@ const _request = async (method, path, body, attempt = 0) => {
     });
 
     // Tentative de refresh si 401 et premier essai.
-    // Le refresh_token est dans un cookie HttpOnly : on tente toujours le refresh.
     if (res.status === 401 && attempt === 0) {
       if (_isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -87,9 +150,35 @@ const _request = async (method, path, body, attempt = 0) => {
       }
     }
 
-    return _handleResponse(res);
+    const data = await _handleResponse(res);
+    
+    // Mettre en cache les GET réussis
+    if (isGet && res.ok && offlineDb && data.success && data.data) {
+      try {
+        if (store) {
+          await offlineDb.cacheSet(store, data.data);
+        }
+        if (path.includes('/books/stats')) {
+          await offlineDb.cacheSet('stats', data.data, 'dashboard');
+        }
+      } catch (e) {
+        // Ignorer les erreurs de cache
+      }
+    }
+    
+    return data;
   } catch (err) {
     if (err.name === 'TypeError' && err.message.includes('fetch')) {
+      // Erreur réseau - essayer le cache pour les GET
+      if (isGet && offlineDb) {
+        try {
+          const cached = await offlineDb.cacheGet(store || 'books', { all: true });
+          if (cached && cached.length > 0) {
+            console.log('[API] Fallback cache après erreur réseau:', path);
+            return { success: true, data: cached, fromCache: true };
+          }
+        } catch (e) {}
+      }
       throw new Error('Impossible de contacter le serveur. Vérifiez votre connexion.');
     }
     throw err;
@@ -105,6 +194,9 @@ const api = {
 
   // Upload fichier (cookie envoyé automatiquement)
   upload: async (path, formData) => {
+    if (!navigator.onLine) {
+      throw new Error('Impossible de téléverser un fichier en mode hors-ligne. Veuillez vous connecter au réseau.');
+    }
     const res = await fetch(`${API_BASE}${path}`, {
       method: 'POST',
       credentials: 'include',
@@ -115,6 +207,9 @@ const api = {
 
   // Télécharger un fichier (PDF, QR) avec authentification par cookie
   download: async (path, filename) => {
+    if (!navigator.onLine) {
+      throw new Error('Impossible de télécharger un fichier en mode hors-ligne.');
+    }
     const res = await fetch(`${API_BASE}${path}`, { credentials: 'include' });
     if (!res.ok) throw new Error('Erreur lors du téléchargement.');
     const blob = await res.blob();

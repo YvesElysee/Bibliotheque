@@ -2143,3 +2143,21 @@ var mr = document.getElementById('messages-refresh');
 if (mr) mr.addEventListener('click', loadMessages);
 updateMessagesBadge();
 setInterval(updateMessagesBadge, 60000);
+
+// Écouter les événements de synchronisation pour rafraîchir automatiquement
+window.addEventListener('data:refresh', () => {
+  // Rafraîchir l'onglet actif si possible
+  try {
+    if (typeof loadStats === 'function') loadStats();
+    if (typeof loadLoans === 'function') {
+      const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
+      if (activeTab === 'loans') loadLoans();
+    }
+    if (typeof loadUsers === 'function') {
+      const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
+      if (activeTab === 'users') loadUsers();
+    }
+  } catch(e) {
+    console.log('[Admin] Rafraîchissement après sync:', e.message);
+  }
+});
